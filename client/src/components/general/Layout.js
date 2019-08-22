@@ -6,6 +6,7 @@ import GlobalStyle from '../../styles/global';
 import theme from '../../styles/theme';
 // import favicon
 // import navigation
+import AppContextProvider from '../context/AppContext';
 
 const Layout = ({ children }) => (
   <ThemeProvider theme={theme}>
@@ -17,7 +18,9 @@ const Layout = ({ children }) => (
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
-      <main>{children}</main>
+      <AppContextProvider>
+        <main>{children}</main>
+      </AppContextProvider>
     </>
   </ThemeProvider>
 );
