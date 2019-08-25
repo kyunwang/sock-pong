@@ -1,10 +1,11 @@
+import { SOCKET_ACTIONS } from '../../../general/socketConsts';
+
 export const subscribeToClientRegister = (socket, callback) => {
-  socket.on('register-client', uniqueID => callback(uniqueID));
+  socket.on(SOCKET_ACTIONS.REGISTER_CLIENT, uniqueID => callback(uniqueID));
 };
 
 export const subscribeToPlayerRegister = (socket, callback) => {
-  // socket.on('subscribe-player-register', data => callback(data));
-  socket.on('result-register-player', data => callback(data));
+  socket.on(SOCKET_ACTIONS.RESULT_REGISTER_PLAYER, data => callback(data));
 };
 
 // export const subscribeToPlayerRegister = (socket, callback) => {

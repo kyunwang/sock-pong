@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { socketEmitter } from '../../socket/socket';
+import { SOCKET_ACTIONS } from '../../../../general/socketConsts';
 
 const GameRoomController = ({ roomID, socket }) => {
   // const { roomID, setRoomID } = useContext(GameContext);
@@ -9,7 +10,7 @@ const GameRoomController = ({ roomID, socket }) => {
 
   const handleSubmit = e => {
     if (!roomID && (entryID && entryID >= 10000 && entryID <= 99999)) {
-      socketEmitter(socket, 'register-player', entryID);
+      socketEmitter(socket, SOCKET_ACTIONS.REGISTER_PLAYER, entryID);
     }
     e.preventDefault();
   };
