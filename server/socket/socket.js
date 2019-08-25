@@ -1,22 +1,18 @@
-const {
-  generateUniqueID,
-  detectMobile,
-  readySocketData,
-} = require('../helpers');
+import { detectMobile, generateUniqueID } from '../../helpers.js';
 
-const { onSocketDisconnect } = require('./socketGeneral');
-const { onPlayerRegister } = require('./socketSubscriptions');
+import { onSocketDisconnect } from './socketGeneral.js';
+import { onPlayerRegister } from './socketSubscriptions.js';
 
 // Saving clients right here until they leave
 const clients = {};
 
-module.exports = io => {
+const initSocketServer = io => {
   io.on('connection', socket => {
     const userAgent = socket.handshake.headers['user-agent'];
     const isMobile = detectMobile(userAgent);
     const userID = generateUniqueID();
 
-    const package = {
+    const stuff = {
       socket,
       userAgent,
       isMobile,
@@ -30,12 +26,15 @@ module.exports = io => {
       socket.emit('register-client', userID);
     }
 
-    socket.emit('event', 'test emit'); // DEV ONLY: To check succesful connection
+    // DEV ONLY: To check succesful connection
+    socket.emit('event', 'test emit');
 
     // Socket events
-    onPlayerRegister(package);
+    onPlayerRegister(stuff);
 
     // General events
-    onSocketDisconnect(package);
+    onSocketDisconnect(stuff);
   });
 };
+
+export default initSocketServer;

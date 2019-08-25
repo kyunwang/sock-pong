@@ -6,8 +6,9 @@
   "license": "MIT",
   "description": "",
   "keywords": [],
+  "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon --experimental-modules index.js"
   },
   "dependencies": {
     "dotenv": "^8.1.0",

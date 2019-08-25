@@ -1,6 +1,6 @@
 // All listeners on client events - e.g. socket.on(...)
 
-exports.onPlayerRegister = ({ socket, clients }) => {
+export const onPlayerRegister = ({ socket, clients }) => {
   // Only possible on a phone??
   socket.on('register-player', enteredID => {
     // check client is defined

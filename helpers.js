@@ -18,9 +18,9 @@ export function stringifyJSON(data) {
   return JSON.stringify(data);
 }
 
-export function readySocketData(type, data) {
-  const readyData = { type, data };
+// export function readySocketData(type, data) {
+//   const readyData = { type, data };
 
-  const stringifiedData = JSON.stringify(readyData);
-  return stringifiedData;
-}
+//   const stringifiedData = JSON.stringify(readyData);
+//   return stringifiedData;
+// }
