@@ -1,4 +1,4 @@
-import { detectMobile, generateUniqueID } from '../../helpers.js';
+import { detectMobile, generateUniqueID } from '../../general/helpers.js';
 
 import { onSocketDisconnect } from './socketGeneral.js';
 import { onPlayerRegister } from './socketSubscriptions.js';

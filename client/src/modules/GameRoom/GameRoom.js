@@ -6,7 +6,7 @@ import { Link } from 'gatsby';
 import {
   subscribeToPlayerRegister,
   subscribeToClientRegister,
-} from '../../general/socket';
+} from '../../socket/socketSubscriptions';
 
 import {
   AppContext,
@@ -40,7 +40,6 @@ const GameRoom = () => {
   console.log(socket, roomID);
 
   // if 2 players - not allowed to join as player but as audience
-
   if (!socket) return null;
 
   return (

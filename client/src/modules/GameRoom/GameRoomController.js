@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { socketEmitter } from '../../general/socket';
+import { socketEmitter } from '../../socket/socket';
 
 const GameRoomController = ({ roomID, socket }) => {
   // const { roomID, setRoomID } = useContext(GameContext);

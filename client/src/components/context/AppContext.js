@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { initSocket } from '../../general/socket';
-import { detectMobile } from '../../../../helpers';
+import { initSocket } from '../../socket/socket';
+import { detectMobile } from '../../../../general/helpers';
 
 const socketURL = '192.168.1.8:7000';
 // const socketURL = '192.168.1.14:7000';

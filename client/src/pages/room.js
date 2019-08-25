@@ -6,7 +6,7 @@ import { Link } from 'gatsby';
 import {
   subscribeToPlayerRegister,
   subscribeToClientRegister,
-} from '../general/socket';
+} from '../socket/socketSubscriptions';
 
 import {
   AppContext,
