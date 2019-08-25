@@ -15,46 +15,48 @@ import {
 } from '../components/context/AppContext';
 
 import Container from '../components/general/Container';
-// import GameRoomClient from './GameRoomClient';
-// import GameRoomController from './GameRoomController';
-import GameRoomController from '../modules/GameRoom/GameRoomController';
 import GameRoomClient from '../modules/GameRoom/GameRoomClient';
-import GameRoom from '../modules/GameRoom/GameRoom';
+import GameRoomController from '../modules/GameRoom/GameRoomController';
 
 const GameRoomPage = () => {
-  // const { global } = useContext(AppContext);
-  // const { socket, assignSocket } = useContext(SocketContext);
-  // const { roomID, setRoomID } = useContext(GameContext);
+  const { global } = useContext(AppContext);
+  const { socket, assignSocket } = useContext(SocketContext);
+  const { roomID, setRoomID } = useContext(GameContext);
 
-  // useEffect(() => {
-  //   if (!socket) {
-  //     assignSocket();
-  //     return;
-  //   }
+  useEffect(() => {
+    let connectedSocket = socket;
 
-  //   subscribeToClientRegister(socket, uniqueID => setRoomID(uniqueID));
-  //   subscribeToPlayerRegister(socket, data => {
-  //     console.log('player registered: ', data);
-  //   });
-  // }, []);
+    if (!socket) {
+      connectedSocket = assignSocket();
+    }
 
-  // console.log(socket, roomID);
+    subscribeToClientRegister(connectedSocket, uniqueID => setRoomID(uniqueID));
 
-  // // if 2 players - not allowed to join as player but as audience
+    subscribeToPlayerRegister(connectedSocket, data => {
+      console.log('player registered: ', data);
+    });
+  }, []);
 
-  // if (!socket) return null;
+  console.log(socket, roomID);
+
+  // if 2 players - not allowed to join as player but as audience
+  if (!socket) return null;
 
   return (
-    <GameRoom />
-    // <Container>
-    //   <Link to="/">home</Link>
+    <Container>
+      <Link to="/">home</Link>
+      {roomID}
 
-    //   {global.isMobile ? (
-    //     <GameRoomController socket={socket} roomID={roomID} />
-    //   ) : (
-    //     <GameRoomClient socket={socket} roomID={roomID} />
-    //   )}
-    // </Container>
+      {global.isMobile ? (
+        <GameRoomController
+          socket={socket}
+          roomID={roomID}
+          setRoomID={setRoomID}
+        />
+      ) : (
+        <GameRoomClient socket={socket} roomID={roomID} />
+      )}
+    </Container>
   );
 };
 
