@@ -13,14 +13,15 @@ const AppContextData = {
 };
 
 const SocketContextData = {
-  socket: null,
   initSocket: () => {},
+  socket: null,
 };
 
 const GameContextData = {
-  roomID: null,
+  playerID: null,
   audienceCount: 0,
   players: {}, // left, right?
+  roomID: null,
 };
 
 export const AppContext = createContext(AppContextData);
@@ -30,8 +31,8 @@ export const GameContext = createContext(GameContextData);
 // Multiple contexts to keep re-rendering fast
 export const AppContextProvider = props => {
   const [socket, setSocket] = useState(null);
-
   const [roomID, setRoomID] = useState(null);
+  const [playerID, setPlayerID] = useState(null);
 
   const assignSocket = () => {
     const connectedSocket = initSocket({
@@ -47,7 +48,9 @@ export const AppContextProvider = props => {
   return (
     // <AppContext.Provider>
     <SocketContext.Provider value={{ socket, assignSocket }}>
-      <GameContext.Provider value={{ roomID, setRoomID }}>
+      <GameContext.Provider
+        value={{ roomID, setRoomID, playerID, setPlayerID }}
+      >
         {props.children}
       </GameContext.Provider>
     </SocketContext.Provider>

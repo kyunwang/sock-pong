@@ -1,24 +1,30 @@
 // All listeners on client events - e.g. socket.on(...)
-import { SOCKET_ACTIONS } from '../../general/socketConsts.js';
+import { SOCKET_MANAGE, SOCKET_GAME } from '../../general/socketConsts.js';
 
-export const onPlayerRegister = ({ socket, clients }) => {
-  // Only possible on a phone??
-  socket.on(SOCKET_ACTIONS.REGISTER_PLAYER, enteredID => {
-    // check client is defined
-    // if (!isMobile && clients[enteredID]) {
-    //   console.log('sock pr', enteredID);
-    //   return;
-    // }
-
-    const client = clients[enteredID];
+export const subscribeToPlayerRegister = ({ socket, clients }) => {
+  socket.on(SOCKET_MANAGE.REGISTER_PLAYER, ({ playerID, entryID }) => {
+    const client = clients[entryID];
 
     const data = {
-      result: enteredID,
-      message: !!client
-        ? `You joined Gameroom: ${enteredID} as player`
-        : `Gameroom ID: ${enteredID} doesn not exist`,
+      result: entryID,
+      message: `You joined Gameroom: ${entryID} as player`,
     };
 
-    socket.emit(SOCKET_ACTIONS.RESULT_REGISTER_PLAYER, data);
+    if (!client) {
+      data.result = false;
+      data.message = `Gameroom: ${entryID} doesn't not exist`;
+    } else if (client.players.length < 2) {
+      client.players = [...client.players, playerID];
+    } else {
+      data.message = `Gameroom ${entryID} already has two players`;
+    }
+
+    socket.emit(SOCKET_MANAGE.RESULT_REGISTER_PLAYER, data);
+  });
+};
+
+export const subscribeToSendOrientation = ({ socket, clients }) => {
+  socket.on(SOCKET_GAME.SEND_ORIENTATION, ({ orientation }) => {
+    console.log(orientation.alpha);
   });
 };

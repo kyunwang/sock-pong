@@ -6,6 +6,7 @@ import { Link } from 'gatsby';
 import {
   subscribeToPlayerRegister,
   subscribeToClientRegister,
+  subscribeToPlayerIDRegister,
 } from '../socket/socketSubscriptions';
 
 import {
@@ -19,9 +20,12 @@ import GameRoomClient from '../modules/GameRoom/GameRoomClient';
 import GameRoomController from '../modules/GameRoom/GameRoomController';
 
 const GameRoomPage = () => {
-  const { global } = useContext(AppContext);
+  const {
+    global: { isMobile },
+  } = useContext(AppContext);
+
   const { socket, assignSocket } = useContext(SocketContext);
-  const { roomID, setRoomID } = useContext(GameContext);
+  const { roomID, setRoomID, setPlayerID } = useContext(GameContext);
 
   useEffect(() => {
     let connectedSocket = socket;
@@ -30,14 +34,21 @@ const GameRoomPage = () => {
       connectedSocket = assignSocket();
     }
 
-    subscribeToClientRegister(connectedSocket, uniqueID => setRoomID(uniqueID));
+    if (isMobile) {
+      subscribeToPlayerIDRegister(connectedSocket, uniqueID =>
+        setPlayerID(uniqueID)
+      );
+    } else {
+      subscribeToClientRegister(connectedSocket, uniqueID =>
+        setRoomID(uniqueID)
+      );
+    }
 
     subscribeToPlayerRegister(connectedSocket, data => {
+      setRoomID(data.result); // should be only for controller
       console.log('player registered: ', data);
     });
   }, []);
-
-  console.log(socket, roomID);
 
   // if 2 players - not allowed to join as player but as audience
   if (!socket) return null;
@@ -47,7 +58,7 @@ const GameRoomPage = () => {
       <Link to="/">home</Link>
       {roomID}
 
-      {global.isMobile ? (
+      {isMobile ? (
         <GameRoomController
           socket={socket}
           roomID={roomID}

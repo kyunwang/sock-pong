@@ -1,17 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { socketEmitter } from '../../socket/socket';
-import { SOCKET_ACTIONS } from '../../../../general/socketConsts';
 
-const GameRoomController = ({ roomID, socket }) => {
-  // const { roomID, setRoomID } = useContext(GameContext);
+import { AppContext, GameContext } from '../../components/context/AppContext';
+import { emitRegisterPlayer } from '../../socket/socketEmitters';
+import { SOCKET_GAME } from '../../../../general/socketConsts';
+
+const GameRoomController = ({ socket }) => {
+  const { global: isMobile } = useContext(AppContext);
+  const { roomID, playerID } = useContext(GameContext);
   const [entryID, setEntryID] = useState('');
+
+  useEffect(() => {
+    const handleDeviceOrientation = orientation => {
+      const { alpha, beta, gamma } = orientation;
+
+      const data = {
+        orientation: {
+          alpha: (alpha + 180) / 20,
+          beta: beta / 20,
+          gamma: -gamma / 20,
+        },
+      };
+
+      socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
+    };
+
+    if (window.DeviceOrientationEvent && isMobile) {
+      window.addEventListener(
+        'deviceorientation',
+        handleDeviceOrientation,
+        false
+      );
+    }
+
+    // on unmount
+    return () => {
+      if (window.DeviceOrientationEvent && isMobile) {
+        window.removeEventListener(
+          'deviceorientation',
+          handleDeviceOrientation
+        );
+      }
+    };
+  }, []);
 
   const handleSubmit = e => {
     if (!roomID && (entryID && entryID >= 10000 && entryID <= 99999)) {
-      socketEmitter(socket, SOCKET_ACTIONS.REGISTER_PLAYER, entryID);
+      const data = { socket, data: { playerID, entryID } };
+
+      emitRegisterPlayer(data);
     }
+
     e.preventDefault();
   };
 

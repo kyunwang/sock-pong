@@ -21,9 +21,3 @@ export const initSocket = ({ url, config = {} }) => {
 
   return socket;
 };
-
-export const socketEmitter = (socket, event, data) => {
-  console.log(event, data);
-
-  socket.emit(event, data);
-};

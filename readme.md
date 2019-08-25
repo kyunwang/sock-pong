@@ -9,6 +9,7 @@ Note:
 - maybe rewrite to typescript after first mvp ish is done
 - look into code sharin (lerna?,yarn workspaces, read somewhere aboout typescript too)	
   - as currently i am beautifully copy pasting the same file 🤷🏻‍♂️🤦🏻‍♂️ (for helpers atleast)
+- Forgot socket.io had rooms ¯\_(ツ)_/¯ - will do without for now
 
 ### Keep in mind
 - [] Websocket stability
