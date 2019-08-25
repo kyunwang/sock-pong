@@ -27,8 +27,13 @@ export const subscribeToClientRegister = (socket, callback) => {
 
 export const subscribeToPlayerRegister = (socket, callback) => {
   // socket.on('subscribe-player-register', data => callback(data));
-  socket.on('subscribe-player-register', data => callback(data));
+  socket.on('result-register-player', data => callback(data));
 };
+
+// export const subscribeToPlayerRegister = (socket, callback) => {
+//   // socket.on('subscribe-player-register', data => callback(data));
+//   socket.on('subscribe-player-register', data => callback(data));
+// };
 
 // export const subscribeToPlayerExit = (socket, callback) => {} ??
 // export const subscribeToAudienceRegister = (socket, callback) => {};
@@ -39,5 +44,7 @@ export const subscribeToPlayerRegister = (socket, callback) => {
 // };
 
 export const socketEmitter = (socket, event, data) => {
+  console.log(event, data);
+
   socket.emit(event, data);
 };

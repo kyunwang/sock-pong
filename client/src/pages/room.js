@@ -1,29 +1,64 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
+
+import {
+  subscribeToPlayerRegister,
+  subscribeToClientRegister,
+} from '../general/socket';
 
 import {
   AppContext,
-  AppContextProvider,
+  GameContext,
+  SocketContext,
 } from '../components/context/AppContext';
 
-import { Link } from 'gatsby';
 import Container from '../components/general/Container';
+// import GameRoomClient from './GameRoomClient';
+// import GameRoomController from './GameRoomController';
+import GameRoomController from '../modules/GameRoom/GameRoomController';
+import GameRoomClient from '../modules/GameRoom/GameRoomClient';
+import GameRoom from '../modules/GameRoom/GameRoom';
 
-import Room from '../modules/GameRoom/GameRoom';
+const GameRoomPage = () => {
+  // const { global } = useContext(AppContext);
+  // const { socket, assignSocket } = useContext(SocketContext);
+  // const { roomID, setRoomID } = useContext(GameContext);
 
-const RoomPage = () => {
-  const { global } = useContext(AppContext);
-  console.log(global);
+  // useEffect(() => {
+  //   if (!socket) {
+  //     assignSocket();
+  //     return;
+  //   }
+
+  //   subscribeToClientRegister(socket, uniqueID => setRoomID(uniqueID));
+  //   subscribeToPlayerRegister(socket, data => {
+  //     console.log('player registered: ', data);
+  //   });
+  // }, []);
+
+  // console.log(socket, roomID);
+
+  // // if 2 players - not allowed to join as player but as audience
+
+  // if (!socket) return null;
 
   return (
-    // <AppContextProvider>
-    <Room></Room>
-    // </AppContextProvider>
+    <GameRoom />
+    // <Container>
+    //   <Link to="/">home</Link>
+
+    //   {global.isMobile ? (
+    //     <GameRoomController socket={socket} roomID={roomID} />
+    //   ) : (
+    //     <GameRoomClient socket={socket} roomID={roomID} />
+    //   )}
+    // </Container>
   );
 };
 
-RoomPage.propTypes = {};
-RoomPage.defaultProps = {};
+GameRoomPage.propTypes = {};
+GameRoomPage.defaultProps = {};
 
-export default RoomPage;
+export default GameRoomPage;

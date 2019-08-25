@@ -1,4 +1,6 @@
 # Sock Pong
+*Random notes for now - Readme to be written*
+
 the name will likely change
 
 
@@ -8,6 +10,9 @@ Note:
 - look into code sharin (lerna?,yarn workspaces, read somewhere aboout typescript too)	
   - as currently i am beautifully copy pasting the same file 🤷🏻‍♂️🤦🏻‍♂️
 
+
+### Terms
+- Client: A.K.A. the viewer A.K.A. not a phone (or tablet?)
 
 reads: 
 - https://philna.sh/blog/2018/09/27/techniques-for-animating-on-the-canvas-in-react/
