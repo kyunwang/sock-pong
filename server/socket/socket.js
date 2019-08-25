@@ -12,12 +12,12 @@ const initSocketServer = io => {
     const isMobile = detectMobile(userAgent);
     const userID = generateUniqueID();
 
-    const stuff = {
+    const collection = {
+      clients,
+      isMobile,
       socket,
       userAgent,
-      isMobile,
       userID,
-      clients,
     };
 
     // Register a game viewer - desktopish
@@ -30,10 +30,10 @@ const initSocketServer = io => {
     socket.emit('event', 'test emit');
 
     // Socket events
-    onPlayerRegister(stuff);
+    onPlayerRegister(collection);
 
     // General events
-    onSocketDisconnect(stuff);
+    onSocketDisconnect(collection);
   });
 };
 
