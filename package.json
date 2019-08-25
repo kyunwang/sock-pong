@@ -6,6 +6,7 @@
   "license": "MIT",
   "description": "",
   "keywords": [],
+  "type": "module",
   "scripts": {
     "start": "concurrently  -  kill-others \"npm run server\" \"npm run client\"",
     "client": "cd client && npm run develop",
@@ -14,7 +15,9 @@
     "server:install": "cd server && npm i",
     "ready": "npm i && npm run client:install && npm run server:install",
     "predeploy": "cd client && npm run build",
-    "deploy": "gh-pages -d ./client/build"
+    "deploy": "gh-pages -d ./client/build",
+    "prebuild": "",
+    "build": ""
   },
   "repository": {
     "type": "git",

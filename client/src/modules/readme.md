@@ -1,0 +1,1 @@
+Quick note: Calling it modules because `pages` is reserved in Gatsby
