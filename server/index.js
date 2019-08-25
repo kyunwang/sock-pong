@@ -8,7 +8,7 @@ import socketServer from './socket/socket.js';
 const app = express();
 const httpServer = http.createServer(app);
 const ioServer = io.listen(httpServer, {
-  transports: ['wesbsocket', 'xhr-polling'],
+  transports: ['websocket', 'xhr-polling'],
 });
 
 dotenv.config({ path: '../.env' });
