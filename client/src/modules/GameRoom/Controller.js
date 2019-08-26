@@ -6,47 +6,34 @@ import { AppContext, GameContext } from '../../components/context/AppContext';
 import { emitRegisterPlayer } from '../../socket/socketEmitters';
 import { SOCKET_GAME } from '../../../../general/socketConsts';
 import { subscribeToReceiveOrientation } from '../../socket/socketSubscriptions';
+import { useEventListener } from '../../general/hooks/hooks';
 
 const GameRoomController = ({ socket }) => {
   const { global: isMobile } = useContext(AppContext);
   const { roomID, playerID } = useContext(GameContext);
   const [entryID, setEntryID] = useState('');
 
-  useEffect(() => {
-    const handleDeviceOrientation = orientation => {
-      const { alpha, beta, gamma } = orientation;
+  const handleDeviceOrientation = orientation => {
+    const { alpha, beta, gamma } = orientation;
 
-      const data = {
-        roomID,
-        playerID,
-        orientation: {
-          alpha: (alpha + 180) / 20,
-          beta: beta / 20,
-          gamma: -gamma / 20,
-        },
-      };
-
-      socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
+    const data = {
+      roomID,
+      playerID,
+      orientation: {
+        alpha: (alpha + 180) / 20,
+        beta: beta / 20,
+        gamma: -gamma / 20,
+      },
     };
 
-    if (window.DeviceOrientationEvent && isMobile && roomID && playerID) {
-      window.addEventListener(
-        'deviceorientation',
-        handleDeviceOrientation,
-        false
-      );
-    }
+    socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
+  };
 
-    // on unmount
-    return () => {
-      if (window.DeviceOrientationEvent && isMobile && roomID && playerID) {
-        window.removeEventListener(
-          'deviceorientation',
-          handleDeviceOrientation
-        );
-      }
-    };
-  }, [roomID]);
+  useEventListener({
+    event: 'deviceorientation',
+    handler: handleDeviceOrientation,
+    condition: window.DeviceOrientationEvent && isMobile && roomID && playerID,
+  });
 
   const handleSubmit = e => {
     if (!roomID && (entryID && entryID >= 10000 && entryID <= 99999)) {
