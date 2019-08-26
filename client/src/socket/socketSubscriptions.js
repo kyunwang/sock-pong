@@ -1,7 +1,10 @@
-import { SOCKET_MANAGE } from '../../../general/socketConsts';
+import { SOCKET_MANAGE, SOCKET_GAME } from '../../../general/socketConsts';
 
 export const subscribeToClientRegister = (socket, callback) => {
-  socket.on(SOCKET_MANAGE.REGISTER_CLIENT, uniqueID => callback(uniqueID));
+  // Possible to do this to be able to remove the socket listener through an cb
+  const cb = uniqueID => callback(uniqueID);
+  socket.on(SOCKET_MANAGE.REGISTER_CLIENT, cb);
+  return () => socket.removeListener(SOCKET_MANAGE.REGISTER_CLIENT, cb);
 };
 
 export const subscribeToPlayerIDRegister = (socket, callback) => {
@@ -10,6 +13,10 @@ export const subscribeToPlayerIDRegister = (socket, callback) => {
 
 export const subscribeToPlayerRegister = (socket, callback) => {
   socket.on(SOCKET_MANAGE.RESULT_REGISTER_PLAYER, data => callback(data));
+};
+
+export const subscribeToReceiveOrientation = (socket, callback) => {
+  socket.on(SOCKET_GAME.RECEIVE_ORIENTATION, data => callback(data));
 };
 
 // export const subscribeToPlayerExit = (socket, callback) => {} ??

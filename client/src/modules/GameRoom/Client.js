@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { subscribeToReceiveOrientation } from '../../socket/socketSubscriptions';
 
-const GameRoomClient = ({ roomID }) => {
+const GameRoomClient = ({ socket, roomID }) => {
+  useEffect(() => {
+    subscribeToReceiveOrientation(socket, data => {
+      console.log('receive', data);
+    });
+  }, []);
+
   return (
     <>
       <p>Gameroom</p>

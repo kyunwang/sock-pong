@@ -20,7 +20,7 @@ const SocketContextData = {
 const GameContextData = {
   playerID: null,
   audienceCount: 0,
-  players: {}, // left, right?
+  players: [], // viewer only left, right?
   roomID: null,
 };
 
@@ -33,6 +33,7 @@ export const AppContextProvider = props => {
   const [socket, setSocket] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [playerID, setPlayerID] = useState(null);
+  const [players, setPlayers] = useState([]);
 
   const assignSocket = () => {
     const connectedSocket = initSocket({
@@ -49,7 +50,14 @@ export const AppContextProvider = props => {
     // <AppContext.Provider>
     <SocketContext.Provider value={{ socket, assignSocket }}>
       <GameContext.Provider
-        value={{ roomID, setRoomID, playerID, setPlayerID }}
+        value={{
+          roomID,
+          setRoomID,
+          playerID,
+          setPlayerID,
+          players,
+          setPlayers,
+        }}
       >
         {props.children}
       </GameContext.Provider>

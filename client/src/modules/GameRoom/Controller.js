@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { AppContext, GameContext } from '../../components/context/AppContext';
 import { emitRegisterPlayer } from '../../socket/socketEmitters';
 import { SOCKET_GAME } from '../../../../general/socketConsts';
+import { subscribeToReceiveOrientation } from '../../socket/socketSubscriptions';
 
 const GameRoomController = ({ socket }) => {
   const { global: isMobile } = useContext(AppContext);
@@ -16,6 +17,8 @@ const GameRoomController = ({ socket }) => {
       const { alpha, beta, gamma } = orientation;
 
       const data = {
+        roomID,
+        playerID,
         orientation: {
           alpha: (alpha + 180) / 20,
           beta: beta / 20,
@@ -26,7 +29,7 @@ const GameRoomController = ({ socket }) => {
       socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
     };
 
-    if (window.DeviceOrientationEvent && isMobile) {
+    if (window.DeviceOrientationEvent && isMobile && roomID && playerID) {
       window.addEventListener(
         'deviceorientation',
         handleDeviceOrientation,
@@ -36,14 +39,14 @@ const GameRoomController = ({ socket }) => {
 
     // on unmount
     return () => {
-      if (window.DeviceOrientationEvent && isMobile) {
+      if (window.DeviceOrientationEvent && isMobile && roomID && playerID) {
         window.removeEventListener(
           'deviceorientation',
           handleDeviceOrientation
         );
       }
     };
-  }, []);
+  }, [roomID]);
 
   const handleSubmit = e => {
     if (!roomID && (entryID && entryID >= 10000 && entryID <= 99999)) {
