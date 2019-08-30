@@ -1,12 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import { AppContext, GameContext } from '../../components/context/AppContext';
-import { emitRegisterPlayer } from '../../socket/socketEmitters';
-import { SOCKET_GAME } from '../../../../general/socketConsts';
-import { subscribeToReceiveOrientation } from '../../socket/socketSubscriptions';
-import { useEventListener } from '../../general/hooks/hooks';
+import {
+  AppContext,
+  GameContext,
+} from '../../../components/context/AppContext';
+import { SOCKET_GAME } from '../../../../../general/socketConsts';
+import { emitRegisterPlayer } from '../../../socket/socketEmitters';
+import { useEventListener } from '../../../general/hooks/hooks';
+import {
+  Container,
+  Title,
+  Introduction,
+  StartButton,
+  CodeContainer,
+  SystemMessage,
+  CodeInput,
+} from '../GameRoomStyles';
 
 const GameRoomController = ({ socket }) => {
   const { global: isMobile } = useContext(AppContext);
@@ -51,21 +61,31 @@ const GameRoomController = ({ socket }) => {
     }
   };
 
-  return (
-    <>
-      <p>Controller - {roomID}</p>
+  const titleText = 'Join \n game';
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          placeholder="e.g. 94587"
-          onChange={handleOnChange}
-          value={entryID}
-        ></input>
-        {/* <input type="submit">Enter</input> */}
-        <button>Enter</button>
-      </form>
-    </>
+  return (
+    <Container>
+      <Title text={titleText}>{titleText}</Title>
+      <Introduction>
+        Go to xxx.com and enter the game code displayed
+      </Introduction>
+      <CodeContainer>
+        <CodeInput placeholder="\\\\\" />
+        <SystemMessage status="">Wups, no game has this code</SystemMessage>
+      </CodeContainer>
+      {/* <p>Controller - {roomID}</p>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="number"
+            placeholder="e.g. 94587"
+            onChange={handleOnChange}
+            value={entryID}
+          ></input>
+          <button>Enter</button>
+				</form> */}
+      <StartButton>Let's go</StartButton>
+    </Container>
   );
 };
 

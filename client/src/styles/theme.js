@@ -1,8 +1,11 @@
 const theme = {
   color: {
-    primary: '',
-    secondary: '',
-    white: '',
+    primary: '#F0DCC1',
+    secondary: '#F24E8A',
+    white: '#fff',
+    black: '#4a4a4a',
+    greyLight: '#F3F3F3',
+    // shadow: rgba(0, 0, 0),
   },
   breakpoint: {
     small: style => `@media (max-aspect-ratio: 1/1) { ${style} }`,
@@ -13,7 +16,6 @@ const theme = {
     wide: style =>
       `@media (min-aspect-ratio: 1/1) and (min-height: 30rem) and (min-width: 60rem) { ${style} }`,
   },
-  sizes: {},
   transition: {
     duration: {
       // currently arbitrarily added

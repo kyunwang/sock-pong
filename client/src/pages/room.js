@@ -16,8 +16,8 @@ import {
 } from '../components/context/AppContext';
 
 import Container from '../components/general/Container';
-import GameRoomClient from '../modules/GameRoom/Client';
-import GameRoomController from '../modules/GameRoom/Controller';
+import GameRoomClient from '../modules/GameRoom/Client/Client';
+import GameRoomController from '../modules/GameRoom/Controller/Controller';
 
 const GameRoomPage = () => {
   const {
@@ -75,9 +75,9 @@ const GameRoomPage = () => {
 
   return (
     <Container>
-      <Link to="/">home</Link>
+      {/* <Link to="/">home</Link>
       <Link to="/play">play</Link>
-      {roomID}
+      {roomID} */}
 
       {isMobile ? (
         <GameRoomController

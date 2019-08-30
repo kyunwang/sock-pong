@@ -19,7 +19,9 @@ const Layout = ({ children }) => (
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <AppContextProvider>
-        <main>{children}</main>
+        {/* <main> */}
+        {children}
+        {/* </main> */}
       </AppContextProvider>
     </>
   </ThemeProvider>
