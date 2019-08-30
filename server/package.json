@@ -10,7 +10,7 @@
   "scripts": {
     "start": "nodemon --experimental-modules index.js",
     "start-t": "ts-node-dev --respawn src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "develop": "nodemon --exec ts-node src/index.ts",
     "build": "tsc"
   },
   "dependencies": {

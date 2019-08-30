@@ -10,7 +10,7 @@
   "scripts": {
     "start": "concurrently  -  kill-others \"npm run server\" \"npm run client\"",
     "client": "cd client && npm run develop",
-    "server": "cd server && npm start",
+    "server": "cd server && npm run develop",
     "client:install": "cd client && npm i",
     "server:install": "cd server && npm i",
     "ready": "npm i && npm run client:install && npm run server:install",
