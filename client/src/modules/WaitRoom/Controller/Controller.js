@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { navigate } from 'gatsby';
 
 import { GameContext } from '../../../components/context/AppContext';
 import { emitRegisterPlayer } from '../../../socket/socketEmitters';
@@ -18,12 +19,18 @@ import {
 
 const WaitRoomController = ({ socket }) => {
   const conRef = useRef(null);
-  const { roomID, setRoomID, playerID, setPlayerID } = useContext(GameContext);
+  const { roomID, setRoomID, playerID, setPlayerID, players } = useContext(
+    GameContext
+  );
   const [entryID, setEntryID] = useState('');
 
   useEffect(() => {
     subscribeToPlayerIDRegister(socket, uniqueID => setPlayerID(uniqueID));
-    subscribeToPlayerRegister(socket, ({ result }) => setRoomID(result));
+    subscribeToPlayerRegister(socket, ({ result }) => {
+      setRoomID(result);
+
+      navigate('/play');
+    });
   });
 
   const handleSubmit = e => {

@@ -1,5 +1,5 @@
 // if there is no socket in the context reirect to /room
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { navigate } from 'gatsby';
 
 import {
@@ -10,6 +10,7 @@ import {
 // import { useEventListener } from '../general/hooks/hooks';
 import Container from '../../components/general/Container';
 import PlayRoomController from './Controller/Controller';
+import PlayRoomClient from './Client/Client';
 
 const PlayGamePage = () => {
   const {
@@ -17,14 +18,22 @@ const PlayGamePage = () => {
   } = useContext(AppContext);
 
   const { socket } = useContext(SocketContext);
-  const { players } = useContext(GameContext);
+  const { players, playerID } = useContext(GameContext);
 
-  if (!players.length) {
+  // if (!isMobile && !players.length) {
+  if ((!isMobile && !players.length) || (isMobile && !playerID)) {
     navigate('/room');
+    return null;
   }
 
   return (
-    <Container>{isMobile && <PlayRoomController socket={socket} />}</Container>
+    <Container>
+      {isMobile ? (
+        <PlayRoomController socket={socket} />
+      ) : (
+        <PlayRoomClient socket={socket} />
+      )}
+    </Container>
   );
 };
 

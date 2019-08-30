@@ -12,23 +12,24 @@ import { Introduction, CodeContainer, StartButton } from '../WaitRoomStyles';
 import { StepNumber, CodeViewer } from './ClientStyles';
 
 const WaitRoomClient = ({ socket }) => {
-  const { roomID, setRoomID, players, setPlayers } = useContext(GameContext);
+  const { roomID, setRoomID, players, dispatchPlayers } = useContext(
+    GameContext
+  );
 
   useEffect(() => {
     subscribeToClientRegister(socket, uniqueID => setRoomID(uniqueID));
     subscribeToPlayerRegister(socket, ({ result, playerID }) => {
       if (result) {
-        if (players.length < 2) setPlayers([...players, playerID]);
-        console.log('Added player: ', playerID);
+        if (players.length < 2) {
+          dispatchPlayers({ type: 'addPlayer', playerID });
+        }
       }
     });
   }, []);
 
   const handleOnClick = () => {
     // if (!players.length === 2) return;
-    navigate('/play', {
-      state: { players, roomID },
-    });
+    navigate('/play');
   };
 
   return (
@@ -42,9 +43,19 @@ const WaitRoomClient = ({ socket }) => {
       </CodeContainer>
       <ul>
         {players.map(ID => (
-          <li>- {ID}</li>
+          <li key={ID}>
+            - {ID}
+            <button
+              onClick={() =>
+                dispatchPlayers({ type: 'removePlayer', playerID: ID })
+              }
+            >
+              remove
+            </button>
+          </li>
         ))}
       </ul>
+
       <StartButton onClick={handleOnClick}>Let's go!</StartButton>
     </>
   );
