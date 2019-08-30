@@ -9,10 +9,13 @@ const theme = {
   },
   breakpoint: {
     small: style => `@media (max-aspect-ratio: 1/1) { ${style} }`,
-    medium: style =>
-      `@media (max-aspect-ratio: 1/1) and (min-height: 30rem) and (max-width: 40rem) { ${style} }`,
+    medium: style => `@media (min-width: 40rem) { ${style} }`,
+    // medium: style =>
+    //   `@media (max-aspect-ratio: 1/1) and (min-height: 30rem) and (max-width: 40rem) { ${style} }`,
     large: style =>
       `@media (min-aspect-ratio: 1/1) and (min-height: 40rem) { ${style} }`,
+    // large: style =>
+    //   `@media (min-aspect-ratio: 1/1) and (min-height: 40rem) { ${style} }`,
     wide: style =>
       `@media (min-aspect-ratio: 1/1) and (min-height: 30rem) and (min-width: 60rem) { ${style} }`,
   },

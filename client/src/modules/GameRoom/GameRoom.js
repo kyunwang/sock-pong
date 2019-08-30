@@ -59,7 +59,7 @@ const GameRoom = () => {
 
   if (!socket) return null;
 
-  const titleText = 'Join \n game';
+  const titleText = isMobile ? 'Join \n game' : 'Game \n room';
 
   return (
     <>

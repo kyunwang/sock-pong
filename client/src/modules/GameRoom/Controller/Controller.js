@@ -14,6 +14,7 @@ import {
   CodeContainer,
   SystemMessage,
   StartButton,
+  CodePeek,
 } from '../GameRoomStyles';
 import { CodeInput } from './ControllerStyles';
 
@@ -67,6 +68,7 @@ const GameRoomController = ({ socket }) => {
 
   return (
     <>
+      {/* <CodePeek>{12456}</CodePeek> */}
       <Introduction>
         Go to xxx.com and enter the game code displayed
       </Introduction>
@@ -80,16 +82,6 @@ const GameRoomController = ({ socket }) => {
         <SystemMessage status="">Wups, no game has this code</SystemMessage>
       </CodeContainer>
       <StartButton onClick={handleSubmit}>Let's go</StartButton>
-
-      {/* <form onSubmit={handleSubmit}>
-          <input
-            type="number"
-            placeholder="e.g. 94587"
-            onChange={handleOnChange}
-            value={entryID}
-          ></input>
-          <button>Enter</button>
-				</form> */}
     </>
   );
 };

@@ -12,7 +12,7 @@ export const Container = styled.section`
   transform: translate(0, -50%);
   height: 75%;
   width: 75%;
-  max-width: 32rem;
+  max-width: 28rem;
   background-color: ${({ theme: { color } }) => color.greyLight};
   /* border-radius: 0 1.6rem 1.6rem 0; */
   border-radius: 0 1.6rem 0 0;
@@ -66,8 +66,21 @@ export const SystemMessage = styled.p`
   /* overflow */
 `;
 
+export const CodePeek = styled.div`
+  position: absolute;
+  top: 50%;
+  right: -2.4rem;
+  font-size: 4.4rem;
+  font-weight: 800;
+  opacity: 0.1;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-combine-upright: digits 5;
+`;
+
 export const CodeContainer = styled.div`
-	/* --translateX: -100%; */
+	--translateX: -120%;
 
   position: absolute;
   top: 50%;
@@ -76,7 +89,7 @@ export const CodeContainer = styled.div`
   background-color: ${({ theme: { color } }) => color.white};
   height: 3.6rem;
   width: 70%;
-  border-radius: 0 1.6rem 1.6rem 0;
+  border-radius: 0 2.2rem 2.2rem 0;
 
   &::after {
     content: '';
@@ -89,12 +102,16 @@ export const CodeContainer = styled.div`
 
     background-color: ${({ theme: { color } }) => color.primary};
     border-radius: inherit;
-		/* transform: translateX(var(--translateX, 0)); */
+		transform: translateX(var(--translateX, -100%));
   }
 
   ${({ theme: { breakpoint } }) =>
+    breakpoint.medium(`
+	`)}
+  
+	${({ theme: { breakpoint } }) =>
     breakpoint.large(`
-			height: 4.4rem;
+			height: 4.8rem;
 	`)}
 `;
 
@@ -113,7 +130,13 @@ export const codeStyle = css`
   z-index: 1;
 
   ${({ theme: { breakpoint } }) =>
+    breakpoint.medium(`
+	`)}
+
+  ${({ theme: { breakpoint } }) =>
     breakpoint.large(`
-		font-size: 1.4rem;
+		left: 2rem;
+		font-size: 2rem;
+		letter-spacing: 1.8rem;
 	`)}
 `;
