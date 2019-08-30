@@ -8,6 +8,7 @@ import {
 import { SOCKET_GAME } from '../../../../../general/socketConsts';
 import { emitRegisterPlayer } from '../../../socket/socketEmitters';
 import { useEventListener } from '../../../general/hooks/hooks';
+
 import {
   Container,
   Title,
@@ -15,8 +16,8 @@ import {
   StartButton,
   CodeContainer,
   SystemMessage,
-  CodeInput,
 } from '../GameRoomStyles';
+import { CodeInput } from './ControllerStyles';
 
 const GameRoomController = ({ socket }) => {
   const { global: isMobile } = useContext(AppContext);
@@ -70,7 +71,7 @@ const GameRoomController = ({ socket }) => {
         Go to xxx.com and enter the game code displayed
       </Introduction>
       <CodeContainer>
-        <CodeInput placeholder="\\\\\" />
+        <CodeInput onChange={handleOnChange} placeholder="\\\\\" />
         <SystemMessage status="">Wups, no game has this code</SystemMessage>
       </CodeContainer>
       {/* <p>Controller - {roomID}</p>

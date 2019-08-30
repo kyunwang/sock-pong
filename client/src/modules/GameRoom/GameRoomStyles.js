@@ -86,7 +86,7 @@ export const SystemMessage = styled.p`
   /* overflow */
 `;
 
-export const CodeInput = styled.input`
+export const codeStyle = css`
   ${redefineFont}
   position: absolute;
   left: 1.2rem;
@@ -99,9 +99,4 @@ export const CodeInput = styled.input`
   background-color: transparent;
   border: none;
   z-index: 1;
-
-  &::placeholder {
-    opacity: 0.6;
-    letter-spacing: 1.5rem;
-  }
 `;
