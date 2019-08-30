@@ -1,11 +1,9 @@
 // if there is no socket in the context reirect to /room
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { navigate } from 'gatsby';
 
 import { GameContext, SocketContext } from '../components/context/AppContext';
-import { useEventListener } from '../general/hooks/hooks';
+// import { useEventListener } from '../general/hooks/hooks';
 import { subscribeToReceiveOrientation } from '../socket/socketSubscriptions';
 
 const PlayGamePage = () => {
@@ -35,3 +33,25 @@ PlayGamePage.propTypes = {};
 PlayGamePage.defaultProps = {};
 
 export default PlayGamePage;
+
+// const handleDeviceOrientation = orientation => {
+// 	const { alpha, beta, gamma } = orientation;
+
+// 	const data = {
+// 		roomID,
+// 		playerID,
+// 		orientation: {
+// 			alpha: (alpha + 180) / 20,
+// 			beta: beta / 20,
+// 			gamma: -gamma / 20,
+// 		},
+// 	};
+
+// 	socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
+// };
+
+// useEventListener({
+// 	event: 'deviceorientation',
+// 	handler: handleDeviceOrientation,
+// 	condition: window.DeviceOrientationEvent && isMobile && roomID && playerID,
+// });

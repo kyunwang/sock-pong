@@ -1,16 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { subscribeToReceiveOrientation } from '../../../socket/socketSubscriptions';
+
+import { GameContext } from '../../../components/context/AppContext';
+import {
+  subscribeToClientRegister,
+  subscribeToPlayerRegister,
+} from '../../../socket/socketSubscriptions';
+
 import { Introduction, CodeContainer, StartButton } from '../GameRoomStyles';
 import { StepNumber, CodeViewer } from './ClientStyles';
 
-const GameRoomClient = ({ socket, roomID }) => {
-  // useEffect(() => {
-  //   subscribeToReceiveOrientation(socket, data => {
-  //     console.log('receive', data);
-  //   });
-  // }, []);
+const GameRoomClient = ({ socket }) => {
+  const { roomID, setRoomID, players, setPlayers } = useContext(GameContext);
+
+  useEffect(() => {
+    subscribeToClientRegister(socket, uniqueID => setRoomID(uniqueID));
+    subscribeToPlayerRegister(socket, ({ result, playerID }) => {
+      if (result) {
+        if (players.length < 2) setPlayers([...players, playerID]);
+        console.log('Added player: ', playerID);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -19,14 +30,21 @@ const GameRoomClient = ({ socket, roomID }) => {
         Go to gra-pila.nl o your phone
       </Introduction>
       <CodeContainer>
-        <CodeViewer>21321</CodeViewer>
+        <CodeViewer>{roomID}</CodeViewer>
       </CodeContainer>
+      <ul>
+        {players.map(ID => (
+          <li>- {ID}</li>
+        ))}
+      </ul>
       <StartButton>Let's go!</StartButton>
     </>
   );
 };
 
-GameRoomClient.propTypes = {};
+GameRoomClient.propTypes = {
+  socket: PropTypes.object.isRequired,
+};
 GameRoomClient.defaultProps = {};
 
 export default GameRoomClient;

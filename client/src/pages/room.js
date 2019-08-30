@@ -1,9 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
+import React from 'react';
+// import { Link } from 'gatsby';
 
 import Container from '../components/general/Container';
-
 import GameRoom from '../modules/GameRoom/GameRoom';
 
 const GameRoomPage = () => (

@@ -1,49 +1,29 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import {
-  AppContext,
-  GameContext,
-} from '../../../components/context/AppContext';
-import { SOCKET_GAME } from '../../../../../general/socketConsts';
+
+import { GameContext } from '../../../components/context/AppContext';
 import { emitRegisterPlayer } from '../../../socket/socketEmitters';
-import { useEventListener } from '../../../general/hooks/hooks';
 
 import {
   Introduction,
   CodeContainer,
   SystemMessage,
   StartButton,
-  CodePeek,
 } from '../GameRoomStyles';
 import { CodeInput } from './ControllerStyles';
+import {
+  subscribeToPlayerIDRegister,
+  subscribeToPlayerRegister,
+} from '../../../socket/socketSubscriptions';
 
 const GameRoomController = ({ socket }) => {
   const conRef = useRef(null);
-  const { global: isMobile } = useContext(AppContext);
-  const { roomID, playerID } = useContext(GameContext);
+  const { roomID, setRoomID, playerID, setPlayerID } = useContext(GameContext);
   const [entryID, setEntryID] = useState('');
 
-  const handleDeviceOrientation = orientation => {
-    const { alpha, beta, gamma } = orientation;
-
-    const data = {
-      roomID,
-      playerID,
-      orientation: {
-        alpha: (alpha + 180) / 20,
-        beta: beta / 20,
-        gamma: -gamma / 20,
-      },
-    };
-
-    socket.emit(SOCKET_GAME.SEND_ORIENTATION, data);
-  };
-
-  useEventListener({
-    event: 'deviceorientation',
-    handler: handleDeviceOrientation,
-    condition: window.DeviceOrientationEvent && isMobile && roomID && playerID,
+  useEffect(() => {
+    subscribeToPlayerIDRegister(socket, uniqueID => setPlayerID(uniqueID));
+    subscribeToPlayerRegister(socket, ({ result }) => setRoomID(result));
   });
 
   const handleSubmit = e => {
@@ -52,7 +32,6 @@ const GameRoomController = ({ socket }) => {
 
       emitRegisterPlayer(data);
     }
-
     e.preventDefault();
   };
 
@@ -86,7 +65,9 @@ const GameRoomController = ({ socket }) => {
   );
 };
 
-GameRoomController.propTypes = {};
+GameRoomController.propTypes = {
+  socket: PropTypes.object.isRequired,
+};
 GameRoomController.defaultProps = {};
 
 export default GameRoomController;

@@ -1,21 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
-import {
-  AppContext,
-  GameContext,
-  SocketContext,
-} from '../../components/context/AppContext';
-
-import {
-  subscribeToPlayerRegister,
-  subscribeToClientRegister,
-  subscribeToPlayerIDRegister,
-} from '../../socket/socketSubscriptions';
+import { AppContext, SocketContext } from '../../components/context/AppContext';
 
 import GameRoomClient from '../../modules/GameRoom/Client/Client';
 import GameRoomController from '../../modules/GameRoom/Controller/Controller';
-import { Container, Title, StartButton } from './GameRoomStyles';
+import { Container, Title } from './GameRoomStyles';
 
 const GameRoom = () => {
   const {
@@ -23,37 +12,10 @@ const GameRoom = () => {
   } = useContext(AppContext);
 
   const { socket, assignSocket } = useContext(SocketContext);
-  const { players, roomID, setPlayerID, setPlayers, setRoomID } = useContext(
-    GameContext
-  );
 
   useEffect(() => {
-    let connectedSocket = socket;
-
     if (!socket) {
-      connectedSocket = assignSocket();
-    }
-
-    if (isMobile) {
-      subscribeToPlayerIDRegister(connectedSocket, uniqueID =>
-        setPlayerID(uniqueID)
-      );
-      subscribeToPlayerRegister(connectedSocket, data => {
-        console.log('data', data);
-
-        if (data.result) setRoomID(data.result);
-      });
-    } else {
-      subscribeToClientRegister(connectedSocket, uniqueID =>
-        setRoomID(uniqueID)
-      );
-      subscribeToPlayerRegister(connectedSocket, data => {
-        if (data.result) {
-          if (players.length < 2) setPlayers([...players, data.playerID]);
-
-          console.log('Add player: ', data);
-        }
-      });
+      assignSocket();
     }
   }, []);
 
@@ -66,13 +28,9 @@ const GameRoom = () => {
       <Container>
         <Title text={titleText}>{titleText}</Title>
         {isMobile ? (
-          <GameRoomController
-            socket={socket}
-            roomID={roomID}
-            setRoomID={setRoomID}
-          />
+          <GameRoomController socket={socket} />
         ) : (
-          <GameRoomClient socket={socket} roomID={roomID} />
+          <GameRoomClient socket={socket} />
         )}
         {/* <StartButton onClick={() => {}}>Let's go</StartButton> */}
       </Container>

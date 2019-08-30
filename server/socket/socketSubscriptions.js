@@ -21,6 +21,8 @@ export const subscribeToPlayerRegister = ({ socket, clients }) => {
 
     // Send result to requesting constroller
     socket.emit(SOCKET_MANAGE.RESULT_REGISTER_PLAYER, data);
+
+    if (!client || !client.socket) return;
     // To viewer
     client.socket.emit(SOCKET_MANAGE.RESULT_REGISTER_PLAYER, {
       ...data,

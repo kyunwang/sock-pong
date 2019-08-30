@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 import GlobalStyle from '../../styles/global';
 import theme from '../../styles/theme';
