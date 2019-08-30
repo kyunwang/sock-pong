@@ -6,7 +6,8 @@ import { Link } from 'gatsby';
 import {
   subscribeToPlayerRegister,
   subscribeToClientRegister,
-} from '../general/socket';
+  subscribeToPlayerIDRegister,
+} from '../socket/socketSubscriptions';
 
 import {
   AppContext,
@@ -15,46 +16,79 @@ import {
 } from '../components/context/AppContext';
 
 import Container from '../components/general/Container';
-// import GameRoomClient from './GameRoomClient';
-// import GameRoomController from './GameRoomController';
-import GameRoomController from '../modules/GameRoom/GameRoomController';
-import GameRoomClient from '../modules/GameRoom/GameRoomClient';
-import GameRoom from '../modules/GameRoom/GameRoom';
+import GameRoomClient from '../modules/GameRoom/Client';
+import GameRoomController from '../modules/GameRoom/Controller';
 
 const GameRoomPage = () => {
-  // const { global } = useContext(AppContext);
-  // const { socket, assignSocket } = useContext(SocketContext);
-  // const { roomID, setRoomID } = useContext(GameContext);
+  const {
+    global: { isMobile },
+  } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   if (!socket) {
-  //     assignSocket();
-  //     return;
-  //   }
+  const { socket, assignSocket } = useContext(SocketContext);
+  const { players, roomID, setPlayerID, setPlayers, setRoomID } = useContext(
+    GameContext
+  );
 
-  //   subscribeToClientRegister(socket, uniqueID => setRoomID(uniqueID));
-  //   subscribeToPlayerRegister(socket, data => {
-  //     console.log('player registered: ', data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    let connectedSocket = socket;
 
-  // console.log(socket, roomID);
+    if (!socket) {
+      connectedSocket = assignSocket();
+    }
 
-  // // if 2 players - not allowed to join as player but as audience
+    if (isMobile) {
+      subscribeToPlayerIDRegister(connectedSocket, uniqueID =>
+        setPlayerID(uniqueID)
+      );
+      subscribeToPlayerRegister(connectedSocket, data => {
+        console.log('data', data);
 
-  // if (!socket) return null;
+        if (data.result) setRoomID(data.result);
+      });
+    } else {
+      subscribeToClientRegister(connectedSocket, uniqueID =>
+        setRoomID(uniqueID)
+      );
+      subscribeToPlayerRegister(connectedSocket, data => {
+        if (data.result) {
+          if (players.length < 2) setPlayers([...players, data.playerID]);
+
+          console.log('Add player: ', data);
+        }
+      });
+    }
+
+    // subscribeToPlayerRegister(connectedSocket, data => {
+    //   if (data.result) {
+    //     setRoomID(data.result); // should be only for controller
+    //     if (players.length < 2) {
+    //       setPlayers([...players, playerID]);
+    //     }
+
+    //     console.log('player registered: ', data);
+    //   }
+    // });
+  }, []);
+
+  // if 2 players - not allowed to join as player but as audience
+  if (!socket) return null;
 
   return (
-    <GameRoom />
-    // <Container>
-    //   <Link to="/">home</Link>
+    <Container>
+      <Link to="/">home</Link>
+      <Link to="/play">play</Link>
+      {roomID}
 
-    //   {global.isMobile ? (
-    //     <GameRoomController socket={socket} roomID={roomID} />
-    //   ) : (
-    //     <GameRoomClient socket={socket} roomID={roomID} />
-    //   )}
-    // </Container>
+      {isMobile ? (
+        <GameRoomController
+          socket={socket}
+          roomID={roomID}
+          setRoomID={setRoomID}
+        />
+      ) : (
+        <GameRoomClient socket={socket} roomID={roomID} />
+      )}
+    </Container>
   );
 };
 
