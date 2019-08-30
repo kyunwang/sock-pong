@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from 'react';
 
 import { AppContext, SocketContext } from '../../components/context/AppContext';
 
-import GameRoomClient from '../../modules/GameRoom/Client/Client';
-import GameRoomController from '../../modules/GameRoom/Controller/Controller';
-import { Container, Title } from './GameRoomStyles';
+import WaitRoomClient from './Client/Client';
+import WaitRoomController from './Controller/Controller';
+import { Container, Title } from './WaitRoomStyles';
 
-const GameRoom = () => {
+const WaitRoom = () => {
   const {
     global: { isMobile },
   } = useContext(AppContext);
@@ -28,9 +28,9 @@ const GameRoom = () => {
       <Container>
         <Title text={titleText}>{titleText}</Title>
         {isMobile ? (
-          <GameRoomController socket={socket} />
+          <WaitRoomController socket={socket} />
         ) : (
-          <GameRoomClient socket={socket} />
+          <WaitRoomClient socket={socket} />
         )}
         {/* <StartButton onClick={() => {}}>Let's go</StartButton> */}
       </Container>
@@ -38,7 +38,7 @@ const GameRoom = () => {
   );
 };
 
-GameRoom.propTypes = {};
-GameRoom.defaultProps = {};
+WaitRoom.propTypes = {};
+WaitRoom.defaultProps = {};
 
-export default GameRoom;
+export default WaitRoom;

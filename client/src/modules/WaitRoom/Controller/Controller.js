@@ -9,14 +9,14 @@ import {
   CodeContainer,
   SystemMessage,
   StartButton,
-} from '../GameRoomStyles';
+} from '../WaitRoomStyles';
 import { CodeInput } from './ControllerStyles';
 import {
   subscribeToPlayerIDRegister,
   subscribeToPlayerRegister,
 } from '../../../socket/socketSubscriptions';
 
-const GameRoomController = ({ socket }) => {
+const WaitRoomController = ({ socket }) => {
   const conRef = useRef(null);
   const { roomID, setRoomID, playerID, setPlayerID } = useContext(GameContext);
   const [entryID, setEntryID] = useState('');
@@ -65,9 +65,9 @@ const GameRoomController = ({ socket }) => {
   );
 };
 
-GameRoomController.propTypes = {
+WaitRoomController.propTypes = {
   socket: PropTypes.object.isRequired,
 };
-GameRoomController.defaultProps = {};
+WaitRoomController.defaultProps = {};
 
-export default GameRoomController;
+export default WaitRoomController;

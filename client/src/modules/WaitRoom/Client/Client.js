@@ -7,10 +7,10 @@ import {
   subscribeToPlayerRegister,
 } from '../../../socket/socketSubscriptions';
 
-import { Introduction, CodeContainer, StartButton } from '../GameRoomStyles';
+import { Introduction, CodeContainer, StartButton } from '../WaitRoomStyles';
 import { StepNumber, CodeViewer } from './ClientStyles';
 
-const GameRoomClient = ({ socket }) => {
+const WaitRoomClient = ({ socket }) => {
   const { roomID, setRoomID, players, setPlayers } = useContext(GameContext);
 
   useEffect(() => {
@@ -42,9 +42,9 @@ const GameRoomClient = ({ socket }) => {
   );
 };
 
-GameRoomClient.propTypes = {
+WaitRoomClient.propTypes = {
   socket: PropTypes.object.isRequired,
 };
-GameRoomClient.defaultProps = {};
+WaitRoomClient.defaultProps = {};
 
-export default GameRoomClient;
+export default WaitRoomClient;

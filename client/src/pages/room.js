@@ -2,9 +2,9 @@ import React from 'react';
 // import { Link } from 'gatsby';
 
 import Container from '../components/general/Container';
-import GameRoom from '../modules/GameRoom/GameRoom';
+import GameRoom from '../modules/WaitRoom/WaitRoom';
 
-const GameRoomPage = () => (
+const WaitRoomPage = () => (
   <Container>
     {/* <Link to="/">home</Link>
       <Link to="/play">play</Link>
@@ -14,7 +14,7 @@ const GameRoomPage = () => (
   </Container>
 );
 
-GameRoomPage.propTypes = {};
-GameRoomPage.defaultProps = {};
+WaitRoomPage.propTypes = {};
+WaitRoomPage.defaultProps = {};
 
-export default GameRoomPage;
+export default WaitRoomPage;

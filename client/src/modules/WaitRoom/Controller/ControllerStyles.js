@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { codeStyle } from '../GameRoomStyles';
+import { codeStyle } from '../WaitRoomStyles';
 
 export const CodeInput = styled.input`
   ${codeStyle}
