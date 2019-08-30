@@ -1,7 +1,10 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const Wrapper = styled.section``;
+const Wrapper = styled.section`
+  position: relative;
+  height: 100%;
+`;
 
 const Container = props => <Wrapper {...props}>{props.children}</Wrapper>;
 
