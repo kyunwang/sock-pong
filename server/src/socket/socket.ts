@@ -1,17 +1,22 @@
-import { detectMobile, generateUniqueID } from '../../general/helpers.js';
+import { Clients } from './types';
 
-import { onSocketDisconnect } from './socketGeneral.js';
+import { onSocketDisconnect } from './socketGeneral';
 import {
   subscribeToPlayerRegister,
   subscribeToSendOrientation,
-} from './socketSubscriptions.js';
-import { SOCKET_GENERAL, SOCKET_MANAGE } from '../../general/socketConsts.js';
+} from './socketSubscriptions';
+
+import { detectMobile, generateUniqueID } from '../../../general/helpers.js';
+import {
+  SOCKET_GENERAL,
+  SOCKET_MANAGE,
+} from '../../../general/socketConsts.js';
 
 // Saving clients right here until they leave
-const clients = {};
+const clients: Clients = {};
 
-const initSocketServer = io => {
-  io.on(SOCKET_GENERAL.CONNECTION, socket => {
+const initSocketServer = (io: any): void => {
+  io.on(SOCKET_GENERAL.CONNECTION, (socket: any) => {
     const userAgent = socket.handshake.headers['user-agent'];
     const isMobile = detectMobile(userAgent);
     const userID = generateUniqueID();
