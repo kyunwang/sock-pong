@@ -1,28 +1,15 @@
-// if there is no socket in the context reirect to /room
-import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { navigate } from 'gatsby';
+import React from 'react';
 
-import { GameContext } from '../components/context/AppContext';
+import Container from '../components/general/Container';
+import PlayRoom from '../modules/PlayRoom/PlayRoom';
 
-const PlayGamePage = () => {
-  const { players } = useContext(GameContext);
+const PlayRoomPage = () => (
+  <Container>
+    <PlayRoom />
+  </Container>
+);
 
-  if (!players.length) {
-    navigate('/room');
-  }
+PlayRoomPage.propTypes = {};
+PlayRoomPage.defaultProps = {};
 
-  useEffect(() => {}, []);
-
-  return (
-    <p>
-      dsadsadasdasd<span>dsad</span>
-    </p>
-  );
-};
-
-PlayGamePage.propTypes = {};
-PlayGamePage.defaultProps = {};
-
-export default PlayGamePage;
+export default PlayRoomPage;

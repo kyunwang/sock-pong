@@ -47,6 +47,14 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	/* Personal reset */
+	html, body, #___gatsby {
+    height: 100%;
+	}
+
+	div[role="group"][tabindex] {
+    height: 100%;
+	}
+
 	button {
 		cursor: pointer;
 	}
@@ -57,7 +65,15 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	/* Global */
-	font-family: 'josefin sans', 'work sans', sans-serif;
+
+	body {
+		font-family: 'Hiragino Sans', 'work sans', sans-serif;
+		font-weight: 400;
+		font-size: 16px; /* 1rem = 16px */
+		color: ${({ theme }) => theme.color.black};
+		line-height: 1.2;
+		letter-spacing: 0.04rem;
+	}
 `;
 
 export default GlobalStyle;

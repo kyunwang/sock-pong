@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { initSocket } from '../../socket/socket';
 import { detectMobile } from '../../../../general/helpers';
+import { initialPlayersState, playersReducer } from './appReducer';
 
 const socketURL = '192.168.1.8:7000';
 // const socketURL = '192.168.1.14:7000';
@@ -33,7 +34,10 @@ export const AppContextProvider = props => {
   const [socket, setSocket] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [playerID, setPlayerID] = useState(null);
-  const [players, setPlayers] = useState([]);
+  const [players, dispatchPlayers] = useReducer(
+    playersReducer,
+    initialPlayersState
+  );
 
   const assignSocket = () => {
     const connectedSocket = initSocket({
@@ -56,7 +60,7 @@ export const AppContextProvider = props => {
           playerID,
           setPlayerID,
           players,
-          setPlayers,
+          dispatchPlayers,
         }}
       >
         {props.children}
