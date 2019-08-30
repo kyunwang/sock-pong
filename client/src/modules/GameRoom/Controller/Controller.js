@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -10,16 +10,15 @@ import { emitRegisterPlayer } from '../../../socket/socketEmitters';
 import { useEventListener } from '../../../general/hooks/hooks';
 
 import {
-  Container,
-  Title,
   Introduction,
-  StartButton,
   CodeContainer,
   SystemMessage,
+  StartButton,
 } from '../GameRoomStyles';
 import { CodeInput } from './ControllerStyles';
 
 const GameRoomController = ({ socket }) => {
+  const conRef = useRef(null);
   const { global: isMobile } = useContext(AppContext);
   const { roomID, playerID } = useContext(GameContext);
   const [entryID, setEntryID] = useState('');
@@ -56,27 +55,33 @@ const GameRoomController = ({ socket }) => {
     e.preventDefault();
   };
 
-  const handleOnChange = ({ target: { value } }) => {
-    if (value <= 99999) {
-      setEntryID(value);
+  const handleOnChange = ({ target }) => {
+    if (target.value <= 99999) {
+      setEntryID(target.value);
+      // conRef.current.style.setProperty(
+      //   '--translateX',
+      //   target.value.length * 20 + '%'
+      // );
     }
   };
 
-  const titleText = 'Join \n game';
-
   return (
-    <Container>
-      <Title text={titleText}>{titleText}</Title>
+    <>
       <Introduction>
         Go to xxx.com and enter the game code displayed
       </Introduction>
-      <CodeContainer>
-        <CodeInput onChange={handleOnChange} placeholder="\\\\\" />
+      <CodeContainer ref={conRef} afterWidth={entryID}>
+        <CodeInput
+          type="number"
+          onChange={handleOnChange}
+          value={entryID}
+          placeholder="\\\\\"
+        />
         <SystemMessage status="">Wups, no game has this code</SystemMessage>
       </CodeContainer>
-      {/* <p>Controller - {roomID}</p>
+      <StartButton onClick={handleSubmit}>Let's go</StartButton>
 
-        <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
           <input
             type="number"
             placeholder="e.g. 94587"
@@ -85,8 +90,7 @@ const GameRoomController = ({ socket }) => {
           ></input>
           <button>Enter</button>
 				</form> */}
-      <StartButton>Let's go</StartButton>
-    </Container>
+    </>
   );
 };
 

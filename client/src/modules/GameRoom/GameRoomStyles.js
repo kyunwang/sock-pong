@@ -12,6 +12,7 @@ export const Container = styled.section`
   transform: translate(0, -50%);
   height: 75%;
   width: 75%;
+  max-width: 32rem;
   background-color: ${({ theme: { color } }) => color.greyLight};
   /* border-radius: 0 1.6rem 1.6rem 0; */
   border-radius: 0 1.6rem 0 0;
@@ -53,7 +54,21 @@ export const StartButton = styled.button`
   border-radius: 0 1.6rem 0 0;
 `;
 
+export const SystemMessage = styled.p`
+  position: absolute;
+  bottom: -1.2rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  font-weight: 200;
+  color: ${({ theme: { color } }) => color.secondary};
+  /* color depends on status */
+  width: 110%;
+  /* overflow */
+`;
+
 export const CodeContainer = styled.div`
+	/* --translateX: -100%; */
+
   position: absolute;
   top: 50%;
   left: 0;
@@ -65,25 +80,22 @@ export const CodeContainer = styled.div`
 
   &::after {
     content: '';
+    display: inline-block;
     position: absolute;
     height: 100%;
+		width: 100%;
     /* width - props based */
-    width: 80%;
+    /* width: ${({ afterWidth = 0 }) => `${afterWidth.length * (100 / 5)}%`}; */
+
     background-color: ${({ theme: { color } }) => color.primary};
     border-radius: inherit;
+		/* transform: translateX(var(--translateX, 0)); */
   }
-`;
 
-export const SystemMessage = styled.p`
-  position: absolute;
-  bottom: -1.2rem;
-  left: 1rem;
-  font-size: 0.75rem;
-  font-weight: 200;
-  color: ${({ theme: { color } }) => color.secondary};
-  /* color depends on status */
-  width: 110%;
-  /* overflow */
+  ${({ theme: { breakpoint } }) =>
+    breakpoint.large(`
+			height: 4.4rem;
+	`)}
 `;
 
 export const codeStyle = css`
@@ -99,4 +111,9 @@ export const codeStyle = css`
   background-color: transparent;
   border: none;
   z-index: 1;
+
+  ${({ theme: { breakpoint } }) =>
+    breakpoint.large(`
+		font-size: 1.4rem;
+	`)}
 `;

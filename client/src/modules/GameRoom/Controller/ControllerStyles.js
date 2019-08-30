@@ -6,7 +6,8 @@ export const CodeInput = styled.input`
   outline: none;
 
   &::placeholder {
-    opacity: 0.6;
+    font-size: inherit;
     letter-spacing: 1.5rem;
+    opacity: 0.6;
   }
 `;
