@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { navigate } from 'gatsby';
 
 import { GameContext } from '../../../components/context/AppContext';
 import {
@@ -23,6 +24,13 @@ const WaitRoomClient = ({ socket }) => {
     });
   }, []);
 
+  const handleOnClick = () => {
+    // if (!players.length === 2) return;
+    navigate('/play', {
+      state: { players, roomID },
+    });
+  };
+
   return (
     <>
       <Introduction>
@@ -37,7 +45,7 @@ const WaitRoomClient = ({ socket }) => {
           <li>- {ID}</li>
         ))}
       </ul>
-      <StartButton>Let's go!</StartButton>
+      <StartButton onClick={handleOnClick}>Let's go!</StartButton>
     </>
   );
 };
