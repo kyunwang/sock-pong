@@ -3,7 +3,7 @@ import express from 'express';
 import http from 'http';
 import io from 'socket.io';
 
-import socketServer from './socket/socket.js';
+import socketServer from './socket/socket';
 
 const app = express();
 const httpServer = http.createServer(app);
