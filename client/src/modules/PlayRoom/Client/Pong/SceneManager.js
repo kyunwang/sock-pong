@@ -7,7 +7,9 @@ import {
   BoxGeometry,
   MeshBasicMaterial,
   Mesh,
+  MeshLambertMaterial,
 } from 'three';
+import GeneralLight from './sceneSubjects/GeneralLight';
 
 class SceneManager {
   constructor(canvas) {
@@ -67,12 +69,17 @@ class SceneManager {
 
   buildCube = () => {
     const geo = new BoxGeometry(1, 1, 1);
-    const mat = new MeshBasicMaterial({ color: 0x00ff00 });
+    // const mat = new MeshBasicMaterial({ color: 0x00ff00 });
+    const mat = new MeshLambertMaterial({ color: 0x00ff00 });
     const cube = new Mesh(geo, mat);
 
     this.scene.add(cube);
 
     return cube;
+  };
+
+  addLight = () => {
+    const light = new GeneralLight(this.scene);
   };
 }
 

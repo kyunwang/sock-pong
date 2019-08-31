@@ -33,6 +33,7 @@
   "homepage": "https://github.com/kyunwang/sock-pong",
   "dependencies": {
     "dat.gui": "^0.7.6",
-    "stats-js": "^1.0.1"
+    "stats-js": "^1.0.1",
+    "three-orbit-controls": "^82.1.0"
   }
 }

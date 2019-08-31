@@ -5,6 +5,10 @@ import Stats from 'stats-js';
 
 import SceneManager from './SceneManager';
 
+import * as THREE from 'three';
+import OrbitControls from 'three-orbit-controls';
+const Controls = OrbitControls(THREE);
+
 let stats = false;
 
 if (process.env.GATSBY_STATS_JS) {
@@ -22,12 +26,15 @@ const Pong = () => {
     canvas.style.height = '100%';
 
     const Manager = new SceneManager(canvas);
-    const { scene, camera, renderer, buildCube } = Manager;
+    const { scene, camera, renderer, buildCube, addLight } = Manager;
     const cube = buildCube();
+    addLight();
 
     camera.position.x = 0;
     camera.position.y = 0;
     camera.position.z = 5;
+
+    new Controls(camera, canvas);
 
     const animate = () => {
       requestAnimationFrame(animate);
