@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { GameContext } from '../../../components/context/AppContext';
 import { subscribeToReceiveOrientation } from '../../../socket/socketSubscriptions';
+import Pong from './Pong/Pong';
 
 const PlayRoomClient = ({ socket }) => {
   const { players } = useContext(GameContext);
@@ -34,6 +35,7 @@ const PlayRoomClient = ({ socket }) => {
             </li>
           ))}
       </ul>
+      <Pong />
     </>
   );
 };
