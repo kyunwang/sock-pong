@@ -20,8 +20,7 @@ const PlayGamePage = () => {
   const { socket } = useContext(SocketContext);
   const { players, playerID } = useContext(GameContext);
 
-  // if (!isMobile && !players.length) {
-  if ((!isMobile && !players.length) || (isMobile && !playerID)) {
+  if (!socket || (!isMobile && !players.length) || (isMobile && !playerID)) {
     navigate('/room');
     return null;
   }

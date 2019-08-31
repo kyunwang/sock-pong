@@ -19,9 +19,9 @@ const PlayRoomClient = ({ socket }) => {
     ]);
   };
 
-  useEffect(() => {
-    subscribeToReceiveOrientation(socket, handleSub);
-  }, []);
+  // useEffect(() => {
+  //   subscribeToReceiveOrientation(socket, handleSub);
+  // }, []);
 
   return (
     <>
@@ -35,7 +35,7 @@ const PlayRoomClient = ({ socket }) => {
             </li>
           ))}
       </ul>
-      <Pong />
+      <Pong socket={socket} />
     </>
   );
 };
