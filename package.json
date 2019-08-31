@@ -30,5 +30,9 @@
   "bugs": {
     "url": "https://github.com/kyunwang/sock-pong/issues"
   },
-  "homepage": "https://github.com/kyunwang/sock-pong"
+  "homepage": "https://github.com/kyunwang/sock-pong",
+  "dependencies": {
+    "dat.gui": "^0.7.6",
+    "stats-js": "^1.0.1"
+  }
 }
