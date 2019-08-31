@@ -1,4 +1,4 @@
-import { PointLight, PointLightHelper } from 'three';
+import { PointLight, PointLightHelper, Color } from 'three';
 
 class GeneralLight {
   constructor(scene) {
@@ -11,7 +11,7 @@ class GeneralLight {
     const pointLightHelper = new PointLightHelper(
       this.light,
       sphereSize,
-      '0xffffff'
+      0xffffff
     );
     scene.add(pointLightHelper);
   }
