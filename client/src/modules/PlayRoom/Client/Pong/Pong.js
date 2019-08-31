@@ -1,16 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-  BoxGeometry,
-  MeshBasicMaterial,
-  Mesh,
-  MeshLambertMaterial,
-} from 'three';
+
+import Stats from 'stats-js';
 
 import SceneManager from './SceneManager';
+
+let stats = false;
+
+if (process.env.GATSBY_STATS_JS) {
+  stats = new Stats();
+  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+  document.body.appendChild(stats.dom);
+}
 
 const Pong = () => {
   const canvasRef = useRef(null);
@@ -31,9 +32,16 @@ const Pong = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
+      if (process.env.GATSBY_STATS_JS && stats) {
+        stats.begin();
+      }
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
       renderer.render(scene, camera);
+
+      if (process.env.GATSBY_STATS_JS && stats) {
+        stats.end();
+      }
     };
 
     animate();
