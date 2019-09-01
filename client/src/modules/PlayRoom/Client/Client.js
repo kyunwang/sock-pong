@@ -35,7 +35,7 @@ const PlayRoomClient = ({ socket }) => {
             </li>
           ))}
       </ul>
-      <Pong socket={socket} />
+      <Pong socket={socket} players={players} />
     </>
   );
 };
