@@ -1,9 +1,9 @@
 import Dat from 'dat.gui';
-// import 'three-dat.gui';
+import 'three-dat.gui';
 
 export const createDatGUI = (options = {}) => {
-	const gui = new Dat.GUI(options);
-	return gui;
+  const gui = new Dat.GUI(options);
+  return gui;
 };
 
 // From three-dat.gui - not everything seems supported yet from this package
