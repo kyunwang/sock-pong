@@ -10,7 +10,7 @@ import {
 
 import { Introduction, CodeContainer, StartButton } from '../WaitRoomStyles';
 import { StepNumber, CodeViewer } from './ClientStyles';
-import { copyToClipboard } from '../../../../../general/helpers';
+import { copyToClipboard } from '../../../general/helpers';
 
 const WaitRoomClient = ({ socket }) => {
   const { roomID, setRoomID, players, dispatchPlayers } = useContext(

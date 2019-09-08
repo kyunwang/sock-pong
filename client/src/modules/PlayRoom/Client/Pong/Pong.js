@@ -1,73 +1,29 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
-import Stats from 'stats-js';
-
-// import SceneManager from './SceneManager';
-
-import * as THREE from 'three';
-import OrbitControls from 'three-orbit-controls';
-import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
-
-import SceneManager from '../../../../general/bhreesey/SceneManager';
-import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
-import PerlinSphere from './sceneSubjects/PerlinSphere';
 import {
   createStats,
   checkStats,
 } from '../../../../general/bhreesey/utils/stats';
+import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
+import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
+import PropTypes from 'prop-types';
 
-// Remove orbitcontrols at the end
-const Controls = OrbitControls(THREE);
+import PerlinSphere from './sceneSubjects/PerlinSphere';
+import { initializeScene, addLight } from './initial';
+
+import { playersData } from './core';
 
 let stats;
 let sceneManager = null;
-
-const playersOrientation = {};
-
-let cube = null;
-let cubeTwo = null;
-
 const isDev = process.env.GATSBY_STATS_JS;
 
-const initializeScene = canvas => {
-  sceneManager = new SceneManager(canvas);
-  const { camera, scene, addToUpdate } = sceneManager;
-
-  const light = new GeneralLight(scene, {
-    type: 'Ambient',
-    hasHelper: true,
-  });
-
-  const pSphere = new PerlinSphere(scene);
-  addToUpdate([pSphere]);
-
-  // const { camera, buildCube, addLight } = sceneManager;
-  // cube = buildCube();
-  // cubeTwo = buildCube();
-
-  // cubeTwo.position.set(2, 0, 0);
-  camera.position.set(0, 0, 5);
-
-  new Controls(camera, canvas);
-};
-
 const animateScene = players => {
-  // const { scene, renderer, camera } = sceneManager;
-
-  // players.forEach(playerID => {})
-
-  // cube.rotation.set(
-  //   playersOrientation[players[0]].x,
-  //   playersOrientation[players[0]].y,
-  //   playersOrientation[players[0]].z
-  // );
-
-  // cubeTwo.rotation.set(
-  //   playersOrientation[players[1]].x,
-  //   playersOrientation[players[1]].y,
-  //   playersOrientation[players[1]].z
-  // );
+  players.forEach(playerID => {
+    playersData[playerID].object.mesh.rotation.set(
+      playersData[playerID].orientation.x,
+      playersData[playerID].orientation.y,
+      playersData[playerID].orientation.z
+    );
+  });
 
   sceneManager.update();
 };
@@ -78,11 +34,7 @@ const handleSub = data => {
     playerID,
   } = data;
 
-  playersOrientation[playerID] = {
-    x,
-    y,
-    z,
-  };
+  playersData[playerID].orientation = { x, y, z };
 };
 
 const Pong = ({ socket, players }) => {
@@ -96,21 +48,36 @@ const Pong = ({ socket, players }) => {
     // If the sceneManager is not set, means players have yet to be set too
     if (!sceneManager) {
       const canvas = canvasRef.current;
-      initializeScene(canvas);
-      players.forEach(
-        playerID => (playersOrientation[playerID] = { x: 0, y: 0, z: 0 })
-      );
+      sceneManager = initializeScene(canvas);
+      const { scene, addToUpdate } = sceneManager;
+
+      addLight(scene);
+
+      players.forEach(playerID => {
+        const pSphere = new PerlinSphere(scene);
+        addToUpdate([pSphere]);
+
+        playersData[playerID] = {};
+        playersData[playerID].orientation = { x: 0, y: 0, z: 0 };
+        playersData[playerID].object = pSphere;
+      });
     }
   }, []);
 
   useEffect(() => {
     // subscribeToReceiveOrientation(socket, handleSub);
 
+    if (!sceneManager) return;
+
     const animate = () => {
-      checkStats(stats, animateScene, {
-        args: players,
-        condition: isDev,
-      });
+      if (isDev) {
+        checkStats(stats, animateScene, {
+          args: players,
+          condition: isDev,
+        });
+      } else {
+        animateScene(players);
+      }
       requestAnimationFrame(animate);
     };
 
@@ -126,7 +93,11 @@ const Pong = ({ socket, players }) => {
   return <canvas ref={canvasRef}></canvas>;
 };
 
-Pong.propTypes = {};
-Pong.defaultProps = {};
+Pong.propTypes = {
+  socket: PropTypes.object.isRequired,
+  players: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+Pong.defaultProps = { players: [12421] };
 
 export default Pong;

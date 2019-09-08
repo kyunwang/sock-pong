@@ -7,8 +7,6 @@ export function generateUniqueID() {
   return Math.floor(Math.random() * 90000 + 10000);
 }
 
-export function hasGyroscope() {}
-
 // Helpers - I know is repeated - I did not setup lerna because this experiments is not big enough imo
 export function parseJSON(data) {
   return JSON.parse(data);
@@ -24,18 +22,3 @@ export function stringifyJSON(data) {
 //   const stringifiedData = JSON.stringify(readyData);
 //   return stringifiedData;
 // }
-
-export function copyToClipboard(string) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(string).then(
-      function() {
-        console.log('Async: Copying to clipboard was successful!');
-      },
-      function(err) {
-        console.error('Async: Could not copy text: ', err);
-      }
-    );
-  } else {
-    console.log('No clipboard support');
-  }
-}
