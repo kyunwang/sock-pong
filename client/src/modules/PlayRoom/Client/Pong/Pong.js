@@ -37,9 +37,7 @@ const handleSub = data => {
   playersData[playerID].orientation = { x, y, z };
 };
 
-const Pong = ({ socket, players }) => {
-  const canvasRef = useRef(null);
-
+const Pong = ({ socket, players, canvas }) => {
   useEffect(() => {
     if (isDev && !stats) {
       stats = createStats(); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -47,7 +45,6 @@ const Pong = ({ socket, players }) => {
 
     // If the sceneManager is not set, means players have yet to be set too
     if (!sceneManager) {
-      const canvas = canvasRef.current;
       sceneManager = initializeScene(canvas);
       const { scene, addToUpdate } = sceneManager;
 
@@ -90,7 +87,7 @@ const Pong = ({ socket, players }) => {
     };
   }, []);
 
-  return <canvas ref={canvasRef}></canvas>;
+  return null;
 };
 
 Pong.propTypes = {
