@@ -3,66 +3,73 @@ import PropTypes from 'prop-types';
 
 import Stats from 'stats-js';
 
-import SceneManager from './SceneManager';
+// import SceneManager from './SceneManager';
 
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 
+import SceneManager from '../../../../general/bhreesey/SceneManager';
+import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
+import PerlinSphere from './sceneSubjects/PerlinSphere';
+import {
+  createStats,
+  checkStats,
+} from '../../../../general/bhreesey/utils/stats';
+
+// Remove orbitcontrols at the end
 const Controls = OrbitControls(THREE);
 
-let stats = false;
-
-let Manager = null;
+let stats;
+let sceneManager = null;
 
 const playersOrientation = {};
 
 let cube = null;
 let cubeTwo = null;
 
+const isDev = process.env.GATSBY_STATS_JS;
+
 const initializeScene = canvas => {
-  Manager = new SceneManager(canvas);
-  const { camera, buildCube, addLight } = Manager;
-  cube = buildCube();
-  cubeTwo = buildCube();
+  sceneManager = new SceneManager(canvas);
+  const { camera, scene, addToUpdate } = sceneManager;
 
-  cubeTwo.position.set(2, 0, 0);
+  const light = new GeneralLight(scene, {
+    type: 'Ambient',
+    hasHelper: true,
+  });
 
-  addLight();
+  const pSphere = new PerlinSphere(scene);
+  addToUpdate([pSphere]);
 
-  camera.position.x = 0;
-  camera.position.y = 0;
-  camera.position.z = 5;
+  // const { camera, buildCube, addLight } = sceneManager;
+  // cube = buildCube();
+  // cubeTwo = buildCube();
+
+  // cubeTwo.position.set(2, 0, 0);
+  camera.position.set(0, 0, 5);
 
   new Controls(camera, canvas);
 };
 
 const animateScene = players => {
-  const { scene, renderer, camera } = Manager;
-
-  if (process.env.GATSBY_STATS_JS && stats) {
-    stats.begin();
-  }
+  // const { scene, renderer, camera } = sceneManager;
 
   // players.forEach(playerID => {})
 
-  cube.rotation.set(
-    playersOrientation[players[0]].x,
-    playersOrientation[players[0]].y,
-    playersOrientation[players[0]].z
-  );
+  // cube.rotation.set(
+  //   playersOrientation[players[0]].x,
+  //   playersOrientation[players[0]].y,
+  //   playersOrientation[players[0]].z
+  // );
 
-  cubeTwo.rotation.set(
-    playersOrientation[players[1]].x,
-    playersOrientation[players[1]].y,
-    playersOrientation[players[1]].z
-  );
+  // cubeTwo.rotation.set(
+  //   playersOrientation[players[1]].x,
+  //   playersOrientation[players[1]].y,
+  //   playersOrientation[players[1]].z
+  // );
 
-  renderer.render(scene, camera);
-
-  if (process.env.GATSBY_STATS_JS && stats) {
-    stats.end();
-  }
+  sceneManager.update();
 };
 
 const handleSub = data => {
@@ -82,43 +89,41 @@ const Pong = ({ socket, players }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    subscribeToReceiveOrientation(socket, handleSub);
-
-    if (process.env.GATSBY_STATS_JS && !stats) {
-      stats = new Stats();
-      stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-      document.body.appendChild(stats.dom);
+    if (isDev && !stats) {
+      stats = createStats(); // 0: fps, 1: ms, 2: mb, 3+: custom
     }
 
-    const canvas = canvasRef.current;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-
-    // If the Manager is not set, means players have yet to be set too
-    if (!Manager) {
+    // If the sceneManager is not set, means players have yet to be set too
+    if (!sceneManager) {
+      const canvas = canvasRef.current;
       initializeScene(canvas);
       players.forEach(
         playerID => (playersOrientation[playerID] = { x: 0, y: 0, z: 0 })
       );
     }
+  }, []);
+
+  useEffect(() => {
+    // subscribeToReceiveOrientation(socket, handleSub);
 
     const animate = () => {
+      checkStats(stats, animateScene, {
+        args: players,
+        condition: isDev,
+      });
       requestAnimationFrame(animate);
-      animateScene(players);
     };
 
     animate();
+    sceneManager.onWindowResize();
 
     return () => {
       cancelAnimationFrame(animate);
+      // Add socket remove listener
     };
   }, []);
 
-  return (
-    <>
-      <canvas ref={canvasRef}></canvas>
-    </>
-  );
+  return <canvas ref={canvasRef}></canvas>;
 };
 
 Pong.propTypes = {};

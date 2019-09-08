@@ -66,7 +66,7 @@ class SceneManager {
   }
 
   addToUpdate = subjects => {
-    if (!isArray(subjects)) return;
+    if (!isArray(subjects)) throw new Error('Passed arg is not type of Array');
 
     // If it is an array
     subjects.forEach(subject => {
@@ -77,7 +77,7 @@ class SceneManager {
   };
 
   removeFromUpdate = subjects => {
-    if (!isArray(subjects)) return;
+    if (!isArray(subjects)) throw new Error('Passed arg is not type of Array');
 
     subjects.forEach(subject => {
       const index = this.updateableSubjects.indexOf(subject);
