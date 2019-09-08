@@ -1,28 +1,32 @@
 export const isArray = array => Array.isArray(array);
 
-export const bindEventListeners = events => {
-	if (!isArray(events)) return;
+export const bindEventListeners = (events, preventDefault) => {
+  if (!isArray(events)) return;
 
-	events.forEach(event => {
-		const { type, callback, target } = event;
-		target.addEventListener(type, callback);
-	});
+  events.forEach(event => {
+    const { type, callback, target } = event;
+    target.addEventListener(type, callback);
+
+    if (preventDefault) {
+      event.preventDefault();
+    }
+  });
 };
 
 export const unbindEventListeners = events => {
-	if (!isArray(events)) return;
+  if (!isArray(events)) return;
 
-	events.forEach(event => {
-		const { type, callback, target } = event;
-		target.removeEventListener(type, callback);
-	});
+  events.forEach(event => {
+    const { type, callback, target } = event;
+    target.removeEventListener(type, callback);
+  });
 };
 
 export const debounce = (callback, wait) => {
-	let timeout;
-	return (...args) => {
-		const context = this;
-		clearTimeout(timeout);
-		timeout = setTimeout(() => callback.apply(context, args), wait);
-	};
+  let timeout;
+  return (...args) => {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), wait);
+  };
 };
