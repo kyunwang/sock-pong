@@ -3,7 +3,6 @@ import {
   createStats,
   checkStats,
 } from '../../../../general/bhreesey/utils/stats';
-import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
 import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 import PropTypes from 'prop-types';
 
