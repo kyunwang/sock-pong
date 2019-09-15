@@ -1,18 +1,22 @@
+// NoOTE: Data handling - e.g. sockets etc.
+
+// TODO: useLayoutEffect or old class constructor
+
 import React, { useRef, useEffect } from 'react';
 import {
   createStats,
   checkStats,
 } from '../../../../general/bhreesey/utils/stats';
-import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 import PropTypes from 'prop-types';
+import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 
-import PerlinSphere from './sceneSubjects/PerlinSphere';
-import { initializeScene, addLight } from './initial';
-
+import { initializeCanvas } from './initial';
 import { playersData } from './core';
 
 let stats;
-let sceneManager = null;
+let gui;
+let sceneManager;
+
 const isDev = process.env.GATSBY_STATS_JS;
 
 const animateScene = players => {
@@ -44,25 +48,25 @@ const Pong = ({ socket, players, canvas }) => {
 
     // If the sceneManager is not set, means players have yet to be set too
     if (!sceneManager) {
-      sceneManager = initializeScene(canvas);
-      const { scene, addToUpdate } = sceneManager;
-
-      addLight(scene);
+      const initialized = initializeCanvas({ canvas, hasGui: true });
+      // const { subjects } = initialized;
+      sceneManager = initialized.sceneManager;
+      gui = initialized.gui;
+      const { scene, addToUpdate, camera } = sceneManager;
 
       players.forEach(playerID => {
-        const pSphere = new PerlinSphere(scene);
-        addToUpdate([pSphere]);
+        // addToUpdate([pSphere]);
 
         playersData[playerID] = {};
         playersData[playerID].orientation = { x: 0, y: 0, z: 0 };
-        playersData[playerID].object = pSphere;
+        // playersData[playerID].object = pSphere;
       });
+
+      handleGui();
     }
   }, []);
 
   useEffect(() => {
-    // subscribeToReceiveOrientation(socket, handleSub);
-
     if (!sceneManager) return;
 
     const animate = () => {
@@ -86,6 +90,10 @@ const Pong = ({ socket, players, canvas }) => {
     };
   }, []);
 
+  useEffect(() => {
+    // subscribeToReceiveOrientation(socket, handleSub);
+  });
+
   return null;
 };
 
@@ -97,3 +105,8 @@ Pong.propTypes = {
 Pong.defaultProps = { players: [12421] };
 
 export default Pong;
+
+function handleGui() {
+  const { camera } = sceneManager;
+  gui.addCamera('Camera', camera);
+}

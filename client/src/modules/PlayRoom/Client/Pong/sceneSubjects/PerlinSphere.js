@@ -7,17 +7,24 @@ import {
   MeshLambertMaterial,
   MeshDepthMaterial,
   MeshDistanceMaterial,
+  DoubleSide,
+  BackSide,
+  FrontSide,
 } from 'three';
 import random from 'canvas-sketch-util/random';
 
 class PerlinSphere {
   constructor(scene) {
-    const geometry = new SphereGeometry(1, 256, 256);
+    const geometry = new SphereGeometry(10, 64, 64);
+    // // const geometry = new SphereGeometry(5, 256, 256);
     // const material = new MeshNormalMaterial({ flatShading: false });
     // const material = new MeshLambertMaterial({ flatShading: false });
-    const material = new MeshStandardMaterial({ flatShading: false });
+    const material = new MeshStandardMaterial({
+      flatShading: false,
+      side: DoubleSide,
+      wireframe: true,
+    });
     const mesh = new Mesh(geometry, material);
-
     scene.add(mesh);
     this.mesh = mesh;
 

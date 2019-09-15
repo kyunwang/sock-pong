@@ -53,7 +53,7 @@ class SceneManager {
   buildCamera({ width, height }) {
     const aspectRatio = width / height;
     const fieldOfView = 60;
-    const nearPlane = 1;
+    const nearPlane = 0.1;
     const farPlane = 10000;
     const newCamera = new PerspectiveCamera(
       fieldOfView,
@@ -104,7 +104,7 @@ class SceneManager {
     this.renderer.render(this.scene, this.camera);
   }
 
-  onWindowResize() {
+  onWindowResize = () => {
     const { canvas } = this;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
@@ -119,7 +119,7 @@ class SceneManager {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
-  }
+  };
 }
 
 export default SceneManager;
