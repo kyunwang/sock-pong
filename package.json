@@ -8,7 +8,7 @@
   "keywords": [],
   "type": "module",
   "scripts": {
-    "start": "concurrently  -  kill-others \"npm run server\" \"npm run client\"",
+    "start": "concurrently  -- kill-others \"npm run server\" \"npm run client\"",
     "client": "cd client && npm run develop",
     "server": "cd server && npm run develop",
     "client:install": "cd client && npm i",
@@ -31,9 +31,5 @@
     "url": "https://github.com/kyunwang/sock-pong/issues"
   },
   "homepage": "https://github.com/kyunwang/sock-pong",
-  "dependencies": {
-    "dat.gui": "^0.7.6",
-    "stats-js": "^1.0.1",
-    "three-orbit-controls": "^82.1.0"
-  }
+  "dependencies": {}
 }

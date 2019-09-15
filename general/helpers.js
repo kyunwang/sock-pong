@@ -7,8 +7,6 @@ export function generateUniqueID() {
   return Math.floor(Math.random() * 90000 + 10000);
 }
 
-export function hasGyroscope() {}
-
 // Helpers - I know is repeated - I did not setup lerna because this experiments is not big enough imo
 export function parseJSON(data) {
   return JSON.parse(data);

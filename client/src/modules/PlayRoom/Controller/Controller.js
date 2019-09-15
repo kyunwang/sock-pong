@@ -18,9 +18,9 @@ const PlayRoomController = ({ socket }) => {
       roomID,
       playerID,
       orientation: {
-        alpha: (alpha + 180) / 20,
-        beta: beta / 20,
-        gamma: -gamma / 20,
+        z: (alpha + 180) / 20,
+        x: beta / 20,
+        y: -gamma / 20,
       },
     };
 

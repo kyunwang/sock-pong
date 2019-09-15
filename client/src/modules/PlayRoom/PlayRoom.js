@@ -7,7 +7,6 @@ import {
   GameContext,
   SocketContext,
 } from '../../components/context/AppContext';
-// import { useEventListener } from '../general/hooks/hooks';
 import Container from '../../components/general/Container';
 import PlayRoomController from './Controller/Controller';
 import PlayRoomClient from './Client/Client';
@@ -20,8 +19,7 @@ const PlayGamePage = () => {
   const { socket } = useContext(SocketContext);
   const { players, playerID } = useContext(GameContext);
 
-  // if (!isMobile && !players.length) {
-  if ((!isMobile && !players.length) || (isMobile && !playerID)) {
+  if (!socket || (!isMobile && !players.length) || (isMobile && !playerID)) {
     navigate('/room');
     return null;
   }

@@ -1,69 +1,99 @@
 import React, { useRef, useEffect } from 'react';
+import {
+  createStats,
+  checkStats,
+} from '../../../../general/bhreesey/utils/stats';
+import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 import PropTypes from 'prop-types';
 
-import Stats from 'stats-js';
+import PerlinSphere from './sceneSubjects/PerlinSphere';
+import { initializeScene, addLight } from './initial';
 
-import SceneManager from './SceneManager';
+import { playersData } from './core';
 
-import * as THREE from 'three';
-import OrbitControls from 'three-orbit-controls';
-const Controls = OrbitControls(THREE);
+let stats;
+let sceneManager = null;
+const isDev = process.env.GATSBY_STATS_JS;
 
-let stats = false;
+const animateScene = players => {
+  players.forEach(playerID => {
+    playersData[playerID].object.mesh.rotation.set(
+      playersData[playerID].orientation.x,
+      playersData[playerID].orientation.y,
+      playersData[playerID].orientation.z
+    );
+  });
 
-if (process.env.GATSBY_STATS_JS) {
-  stats = new Stats();
-  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-  document.body.appendChild(stats.dom);
-}
+  sceneManager.update();
+};
 
-const Pong = () => {
-  const canvasRef = useRef(null);
+const handleSub = data => {
+  const {
+    orientation: { x, y, z },
+    playerID,
+  } = data;
+
+  playersData[playerID].orientation = { x, y, z };
+};
+
+const Pong = ({ socket, players, canvas }) => {
+  useEffect(() => {
+    if (isDev && !stats) {
+      stats = createStats(); // 0: fps, 1: ms, 2: mb, 3+: custom
+    }
+
+    // If the sceneManager is not set, means players have yet to be set too
+    if (!sceneManager) {
+      sceneManager = initializeScene(canvas);
+      const { scene, addToUpdate } = sceneManager;
+
+      addLight(scene);
+
+      players.forEach(playerID => {
+        const pSphere = new PerlinSphere(scene);
+        addToUpdate([pSphere]);
+
+        playersData[playerID] = {};
+        playersData[playerID].orientation = { x: 0, y: 0, z: 0 };
+        playersData[playerID].object = pSphere;
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
+    // subscribeToReceiveOrientation(socket, handleSub);
 
-    const Manager = new SceneManager(canvas);
-    const { scene, camera, renderer, buildCube, addLight } = Manager;
-    const cube = buildCube();
-    addLight();
-
-    camera.position.x = 0;
-    camera.position.y = 0;
-    camera.position.z = 5;
-
-    new Controls(camera, canvas);
+    if (!sceneManager) return;
 
     const animate = () => {
+      if (isDev) {
+        checkStats(stats, animateScene, {
+          args: players,
+          condition: isDev,
+        });
+      } else {
+        animateScene(players);
+      }
       requestAnimationFrame(animate);
-
-      if (process.env.GATSBY_STATS_JS && stats) {
-        stats.begin();
-      }
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-
-      if (process.env.GATSBY_STATS_JS && stats) {
-        stats.end();
-      }
     };
 
     animate();
+    sceneManager.onWindowResize();
 
-    return () => {};
+    return () => {
+      cancelAnimationFrame(animate);
+      // Add socket remove listener
+    };
   }, []);
 
-  return (
-    <>
-      <canvas ref={canvasRef}></canvas>
-    </>
-  );
+  return null;
 };
 
-Pong.propTypes = {};
-Pong.defaultProps = {};
+Pong.propTypes = {
+  socket: PropTypes.object.isRequired,
+  players: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+Pong.defaultProps = { players: [12421] };
 
 export default Pong;

@@ -15,10 +15,10 @@ dotenv.config({ path: '../.env' });
 
 socketServer(ioServer);
 
-// app.get('/', (req, res) => {
-//   console.log(req.header('x-forwarded-for') || req.connection.remoteAddress);
-//   res.send('<p>thats it</p>');
-// });
+app.get('/', (req, res) => {
+  console.log(req.header('x-forwarded-for') || req.connection.remoteAddress);
+  res.send('<p>you found a page </p>');
+});
 
 httpServer.listen(process.env.PORT, () => {
   console.log(`Server on port: ${process.env.PORT}`);

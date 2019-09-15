@@ -63,6 +63,7 @@ const WaitRoomController = ({ socket }) => {
           type="number"
           onChange={handleOnChange}
           value={entryID}
+          pattern="\d*"
           placeholder="\\\\\"
         />
         <SystemMessage status="">Wups, no game has this code</SystemMessage>

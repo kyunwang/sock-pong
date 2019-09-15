@@ -10,6 +10,7 @@ import {
 
 import { Introduction, CodeContainer, StartButton } from '../WaitRoomStyles';
 import { StepNumber, CodeViewer } from './ClientStyles';
+import { copyToClipboard } from '../../../general/helpers';
 
 const WaitRoomClient = ({ socket }) => {
   const { roomID, setRoomID, players, dispatchPlayers } = useContext(
@@ -27,7 +28,11 @@ const WaitRoomClient = ({ socket }) => {
     });
   }, []);
 
-  const handleOnClick = () => {
+  const handleOnCopy = () => {
+    copyToClipboard(roomID);
+  };
+
+  const handleOnStart = () => {
     // if (!players.length === 2) return;
     navigate('/play');
   };
@@ -39,7 +44,7 @@ const WaitRoomClient = ({ socket }) => {
         Go to gra-pila.nl o your phone
       </Introduction>
       <CodeContainer>
-        <CodeViewer>{roomID}</CodeViewer>
+        <CodeViewer onClick={handleOnCopy}>{roomID}</CodeViewer>
       </CodeContainer>
       <ul>
         {players.map(ID => (
@@ -56,7 +61,7 @@ const WaitRoomClient = ({ socket }) => {
         ))}
       </ul>
 
-      <StartButton onClick={handleOnClick}>Let's go!</StartButton>
+      <StartButton onClick={handleOnStart}>Let's go!</StartButton>
     </>
   );
 };
