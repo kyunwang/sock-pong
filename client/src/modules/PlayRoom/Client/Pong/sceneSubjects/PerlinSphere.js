@@ -8,7 +8,7 @@ import {
   MeshDepthMaterial,
   MeshDistanceMaterial,
 } from 'three';
-import { noise } from '../../../../../general/bhreesey/utils/perlin';
+import random from 'canvas-sketch-util/random';
 
 class PerlinSphere {
   constructor(scene) {
@@ -43,8 +43,8 @@ class PerlinSphere {
     for (let index = 0; index < geometry.vertices.length; index++) {
       const vertice = geometry.vertices[index];
       const verticeNoise =
-        0.3 *
-        noise.perlin3(
+        0.1 *
+        random.noise3D(
           vertice.x * amount + time,
           vertice.y * amount,
           vertice.z * amount
@@ -62,7 +62,7 @@ class PerlinSphere {
       const face = geometry.faces[index];
       const vertice = geometry.vertices[face.a]; // The first vertex of each face
       const verticeNoise =
-        0.3 * noise.perlin3(uv[0].x * amount, uv[0].y * amount, time);
+        0.1 * random.noise3D(uv[0].x * amount, uv[0].y * amount, time);
 
       vertice
         .normalize() // Keep in place

@@ -16,21 +16,22 @@
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.4",
+    "canvas-sketch-util": "^1.8.0",
     "dat.gui": "^0.7.6",
+    "gatsby": "^2.10.4",
     "gatsby-plugin-react-helmet": "^3.1.0",
     "gatsby-plugin-styled-components": "^3.1.0",
-    "gatsby": "^2.10.4",
     "prop-types": "^15.7.2",
+    "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-spring": "^8.0.27",
-    "react": "^16.8.6",
     "socket.io-client": "^2.2.0",
     "stats-js": "^1.0.1",
     "stats.js": "^0.17.0",
     "styled-components": "^4.3.2",
-    "three-dat.gui": "^1.0.2",
-    "three": "^0.108.0"
+    "three": "^0.108.0",
+    "three-dat.gui": "^1.0.2"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
