@@ -5,13 +5,12 @@ import {
   bindEventListeners,
 } from '../../../../general/bhreesey/utils/helpers';
 import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
-import OrbitControls from 'three-orbit-controls';
 import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
 
-const gui = createDatGUI();
-
 // Remove orbitcontrols at the end
-const Controls = OrbitControls(THREE);
+require('three/examples/js/controls/OrbitControls');
+
+const gui = createDatGUI();
 
 export const initializeScene = canvas => {
   const sceneManager = new SceneManager(canvas);
@@ -22,6 +21,7 @@ export const initializeScene = canvas => {
   }, 300);
 
   camera.position.set(0, 0, 5);
+  camera.lookAt(new THREE.Vector3());
 
   bindEventListeners([
     {
@@ -32,7 +32,7 @@ export const initializeScene = canvas => {
   ]);
 
   // Delete later on
-  new Controls(camera, canvas);
+  new THREE.Controls(camera, canvas);
 
   return sceneManager;
 };
