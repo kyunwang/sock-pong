@@ -7,8 +7,9 @@ import {
 import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
 import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
 
+// global.THREE = THREE; // For orbit controls
 // Remove orbitcontrols at the end
-require('three/examples/js/controls/OrbitControls');
+// require('three/examples/js/controls/OrbitControls');
 
 const gui = createDatGUI();
 
@@ -32,7 +33,7 @@ export const initializeScene = canvas => {
   ]);
 
   // Delete later on
-  new THREE.Controls(camera, canvas);
+  // new THREE.OrbitControls(camera, canvas);
 
   return sceneManager;
 };
