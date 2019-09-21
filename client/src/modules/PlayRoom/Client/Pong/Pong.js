@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 
 import { initializeCanvas } from './initial';
-import { playersData } from './core';
+import { playersData, gameObjects, gameBall } from './core';
+import { handleGameBall } from './core';
 
 let stats;
 let gui;
@@ -20,13 +21,20 @@ let sceneManager;
 const isDev = process.env.GATSBY_STATS_JS;
 
 const animateScene = players => {
-  players.forEach(playerID => {
-    playersData[playerID].object.mesh.rotation.set(
-      playersData[playerID].orientation.x,
-      playersData[playerID].orientation.y,
-      playersData[playerID].orientation.z
-    );
-  });
+  // if (started/running) {}
+
+  // players.forEach(playerID => {
+  //   playersData[playerID].object.mesh.rotation.set(
+  //     playersData[playerID].orientation.x,
+  //     playersData[playerID].orientation.y,
+  //     playersData[playerID].orientation.z
+  //   );
+  // });
+
+  // update ball movement
+  // update paddles movement
+  // console.log(gameObjects.gameBall);
+  handleGameBall();
 
   sceneManager.update();
 };
@@ -51,15 +59,20 @@ const Pong = ({ socket, players, canvas }) => {
       const initialized = initializeCanvas({ canvas, hasGui: true });
       // const { subjects } = initialized;
       sceneManager = initialized.sceneManager;
+      const { gameBall } = initialized.subjects;
       gui = initialized.gui;
       const { scene, addToUpdate, camera } = sceneManager;
+
+      gameObjects.gameBall = gameBall;
+
+      // camera.lookAt(possibly the ball?);
 
       players.forEach(playerID => {
         // addToUpdate([pSphere]);
 
         playersData[playerID] = {};
         playersData[playerID].orientation = { x: 0, y: 0, z: 0 };
-        // playersData[playerID].object = pSphere;
+        playersData[playerID].object = {};
       });
 
       handleGui();
@@ -67,17 +80,17 @@ const Pong = ({ socket, players, canvas }) => {
   }, []);
 
   useEffect(() => {
+    // return; // Debug
     if (!sceneManager) return;
 
     const animate = () => {
-      if (isDev) {
-        checkStats(stats, animateScene, {
-          args: players,
-          condition: isDev,
-        });
-      } else {
-        animateScene(players);
-      }
+      isDev
+        ? checkStats(stats, animateScene, {
+            args: players,
+            condition: isDev,
+          })
+        : animateScene(players);
+
       requestAnimationFrame(animate);
     };
 
@@ -91,7 +104,23 @@ const Pong = ({ socket, players, canvas }) => {
   }, []);
 
   useEffect(() => {
-    // subscribeToReceiveOrientation(socket, handleSub);
+    return; // Debug
+    subscribeToReceiveOrientation(socket, handleSub);
+  });
+
+  // Start game - debug
+  useEffect(() => {
+    // put stuff in update of scenemanager?
+    // sceneManager.addToUpdate([]);
+    //
+    // const handlePress = e => {
+    //   if (e.code === 'Space') {
+    //     animate();
+    //     document.removeEventListener(handlePress);
+    //     console.log(111);
+    //   }
+    // };
+    // document.addEventListener('keypress', handlePress);
   });
 
   return null;

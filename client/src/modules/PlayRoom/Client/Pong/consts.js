@@ -20,5 +20,3 @@ export const playerSettings = {
   playerOne: { position: [0, 0, 65], rotation: [0, 0, 0] }, // position
   playerTwo: { position: [0, 0, -65], rotation: [0, 0, 0] },
 };
-
-export const POSITION = {};
