@@ -4,8 +4,7 @@ import { initSocket } from '../../socket/socket';
 import { detectMobile } from '../../../../general/helpers';
 import { initialPlayersState, playersReducer } from './appReducer';
 
-const socketURL = '192.168.1.2:7000';
-// const socketURL = '192.168.1.14:7000';
+const socketURL = process.env.GATSBY_SOCKET_URL;
 
 const AppContextData = {
   global: {

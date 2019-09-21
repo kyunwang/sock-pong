@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 
 export const cameraPositions = {
   default: [0, 0, 5],
-  playerOne: { position: [-20, 8, 75], rotation: [0, 0, 0] },
+  playerOne: { position: [-50, 10, 185], rotation: [0, 0, 0] },
   playerTwo: { position: [0, 0, -70], rotation: [0, 0, 0] },
   audience: {
     camOne: [], // top view?
@@ -20,3 +20,5 @@ export const playerSettings = {
   playerOne: { position: [0, 0, 65], rotation: [0, 0, 0] }, // position
   playerTwo: { position: [0, 0, -65], rotation: [0, 0, 0] },
 };
+
+export const POSITION = {};
