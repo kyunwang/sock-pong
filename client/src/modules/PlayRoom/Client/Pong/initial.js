@@ -13,6 +13,7 @@ import PlayerBar from './sceneSubjects/PlayerBar';
 import { playerSettings } from './consts';
 import GameBall from './sceneSubjects/GameBall';
 import SphereField from './sceneSubjects/SphereField';
+import PlayerPaddle from './sceneSubjects/PlayerPaddle';
 
 global.THREE = THREE; // For orbit controls
 // Remove orbitcontrols at the end
@@ -52,12 +53,14 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
 function addSubjects(scene) {
   // const gameField = new SquareField(scene);
   const gameField = new SphereField(scene);
-  const playerOne = new PlayerBar(scene);
-  const playerTwo = new PlayerBar(scene);
+  const playerOne = new PlayerPaddle(scene);
+  const playerTwo = new PlayerPaddle(scene);
   const gameBall = new GameBall(scene);
 
   playerOne.mesh.position.set(...playerSettings.playerOne.position);
   playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
+  playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
+  playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
 
   gui.addMesh('p1', playerOne.mesh);
   // assign id?

@@ -30,8 +30,8 @@ const updateGameBall = () => {
   gameBall.mesh.position.z += velocity.z;
 
   // collisionBoxSphere(gameField.mesh, gameBall.mesh);
-  collisionBoxSphere(playerOne.mesh, gameBall.mesh);
-  collisionBoxSphere(playerOne.mesh, gameBall.mesh);
+  // collisionBoxSphere(playerOne.mesh, gameBall.mesh);
+  // collisionBoxSphere(playerOne.mesh, gameBall.mesh);
 };
 
 export const handleGameBall = () => {

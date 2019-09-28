@@ -17,6 +17,7 @@ export const fieldSettings = {
 
 export const playerSettings = {
   size: [14, 3, 2],
-  playerOne: { position: [0, 0, 65], rotation: [0, 0, 0] }, // position
-  playerTwo: { position: [0, 0, -65], rotation: [0, 0, 0] },
+  paddleSize: [12, 12, 3, 32],
+  playerOne: { position: [0, 0, 65], rotation: [90, 0, 0] }, // position
+  playerTwo: { position: [0, 0, -65], rotation: [-90, 0, 0] },
 };
