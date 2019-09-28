@@ -1,14 +1,19 @@
 // Note: Game logic - possible state machine??? - prevent react rerender
+import { collisionBoxSphere } from './helpers';
 export const playersData = {}; // playerID: {}
 export const gameObjects = {
+  gameField: null,
   gameBall: null,
+  playerOne: null,
+  playerTwo: null,
 };
 
 // export let gameBall = { velocity: null, paused: null, position: {} };
 
 export const startGameBall = () => {
   const { gameBall } = gameObjects;
-  const direction = Math.random() > 0.5 ? -1 : 1;
+  // const direction = Math.random() > 0.5 ? -1 : 1;
+  const direction = 1;
   gameBall.velocity = {
     x: 0,
     z: direction * 1,
@@ -17,17 +22,20 @@ export const startGameBall = () => {
 };
 
 const updateGameBall = () => {
-  const { gameBall } = gameObjects;
+  const { gameBall, gameField, playerOne, playerTwo } = gameObjects;
+  // console.log(gameObjects);
+
   const { velocity } = gameBall;
   gameBall.mesh.position.x += velocity.x;
   gameBall.mesh.position.z += velocity.z;
 
-  // gameBall.mesh.position.y = ;
+  // collisionBoxSphere(gameField.mesh, gameBall.mesh);
+  collisionBoxSphere(playerOne.mesh, gameBall.mesh);
+  collisionBoxSphere(playerOne.mesh, gameBall.mesh);
 };
 
 export const handleGameBall = () => {
   const { gameBall } = gameObjects;
-  console.log(gameBall);
   if (!gameBall.velocity) {
     startGameBall();
   }

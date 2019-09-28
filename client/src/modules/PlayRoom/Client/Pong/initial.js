@@ -24,8 +24,10 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
   const { camera, scene, onWindowResize } = sceneManager;
 
   // camera.position.set(...cameraPositions.default);
-  camera.position.set(...cameraPositions.playerOne.position);
-  camera.rotation.set(0, 0, 0);
+  camera.position.set(...cameraPositions.audience.topSide.position);
+  camera.rotation.set(...cameraPositions.audience.topSide.rotation);
+  // camera.position.set(...cameraPositions.playerOne.position);
+  // camera.rotation.set(0, 0, 0);
   camera.fov = 15;
   // camera.far = 1000;
 
@@ -49,7 +51,7 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
 };
 
 function addSubjects(scene) {
-  const field = new SquareField(scene);
+  const gameField = new SquareField(scene);
   const playerOne = new PlayerBar(scene);
   const playerTwo = new PlayerBar(scene);
   const gameBall = new GameBall(scene);
@@ -61,7 +63,7 @@ function addSubjects(scene) {
   // assign id?
 
   return {
-    field,
+    gameField,
     playerOne,
     playerTwo,
     gameBall,

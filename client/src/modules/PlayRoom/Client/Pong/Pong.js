@@ -57,13 +57,19 @@ const Pong = ({ socket, players, canvas }) => {
     // If the sceneManager is not set, means players have yet to be set too
     if (!sceneManager) {
       const initialized = initializeCanvas({ canvas, hasGui: true });
-      // const { subjects } = initialized;
       sceneManager = initialized.sceneManager;
-      const { gameBall } = initialized.subjects;
-      gui = initialized.gui;
+      const {
+        gameBall,
+        gameField,
+        playerOne,
+        playerTwo,
+      } = initialized.subjects;
       const { scene, addToUpdate, camera } = sceneManager;
 
       gameObjects.gameBall = gameBall;
+      gameObjects.gameField = gameField;
+      gameObjects.playerOne = playerOne;
+      gameObjects.playerTwo = playerTwo;
 
       // camera.lookAt(possibly the ball?);
 
@@ -75,20 +81,18 @@ const Pong = ({ socket, players, canvas }) => {
         playersData[playerID].object = {};
       });
 
+      gui = initialized.gui;
       handleGui();
     }
   }, []);
 
   useEffect(() => {
     // return; // Debug
-    if (!sceneManager) return;
+    // if (!sceneManager) return;
 
     const animate = () => {
       isDev
-        ? checkStats(stats, animateScene, {
-            args: players,
-            condition: isDev,
-          })
+        ? checkStats(stats, animateScene, { args: players, condition: isDev })
         : animateScene(players);
 
       requestAnimationFrame(animate);
