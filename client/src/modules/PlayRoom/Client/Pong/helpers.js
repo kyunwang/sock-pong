@@ -2,8 +2,10 @@
 
 export const collisionBoxSphere = (box, sphere, inverted = false) => {
   // console.log(box.position.distanceTo(sphere.position));
-  console.log(box, sphere);
+  // console.log(box, sphere);
   // console.log(box.position.min, box.position.distanceTo(sphere.position));
-  debugger;
+  // debugger;
 };
 export const collisionBoxBox = (boxA, boxB, inverted = false) => {};
+
+export const collisionSphereSphere = (sphereA, sphereB, inverted = false) => {};

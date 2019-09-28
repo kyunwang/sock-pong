@@ -11,33 +11,19 @@ import PropTypes from 'prop-types';
 import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 
 import { initializeCanvas } from './initial';
-import { playersData, gameObjects, gameBall } from './core';
-import { handleGameBall } from './core';
+import {
+  playersData,
+  gameObjects,
+  gameBall,
+  animateScene,
+  handleGameBall,
+} from './core';
 
 let stats;
 let gui;
 let sceneManager;
 
 const isDev = process.env.GATSBY_STATS_JS;
-
-const animateScene = players => {
-  // if (started/running) {}
-
-  // players.forEach(playerID => {
-  //   playersData[playerID].object.mesh.rotation.set(
-  //     playersData[playerID].orientation.x,
-  //     playersData[playerID].orientation.y,
-  //     playersData[playerID].orientation.z
-  //   );
-  // });
-
-  // update ball movement
-  // update paddles movement
-  // console.log(gameObjects.gameBall);
-  handleGameBall();
-
-  sceneManager.update();
-};
 
 const handleSub = data => {
   const {
@@ -64,7 +50,6 @@ const Pong = ({ socket, players, canvas }) => {
         playerOne,
         playerTwo,
       } = initialized.subjects;
-      const { scene, addToUpdate, camera } = sceneManager;
 
       gameObjects.gameBall = gameBall;
       gameObjects.gameField = gameField;
@@ -88,12 +73,12 @@ const Pong = ({ socket, players, canvas }) => {
 
   useEffect(() => {
     // return; // Debug
-    // if (!sceneManager) return;
-
     const animate = () => {
       isDev
         ? checkStats(stats, animateScene, { args: players, condition: isDev })
         : animateScene(players);
+
+      sceneManager.update();
 
       requestAnimationFrame(animate);
     };

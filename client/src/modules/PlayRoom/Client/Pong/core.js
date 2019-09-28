@@ -53,3 +53,21 @@ export const handleGameBall = () => {
   // player1back score for player 2
   // player2back score for player 1
 };
+
+export const animateScene = players => {
+  // if (started/running) {}
+
+  // players.forEach(playerID => {
+  //   playersData[playerID].object.mesh.rotation.set(
+  //     playersData[playerID].orientation.x,
+  //     playersData[playerID].orientation.y,
+  //     playersData[playerID].orientation.z
+  //   );
+  // });
+
+  // update ball movement
+  // update paddles movement
+  // console.log(gameObjects.gameBall);
+
+  handleGameBall();
+};

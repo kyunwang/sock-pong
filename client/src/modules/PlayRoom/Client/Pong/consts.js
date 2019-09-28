@@ -12,6 +12,7 @@ export const cameraPositions = {
 
 export const fieldSettings = {
   size: [85, 40, 150],
+  sphereSize: [85, 48, 48],
 };
 
 export const playerSettings = {
