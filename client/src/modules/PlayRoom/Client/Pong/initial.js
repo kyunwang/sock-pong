@@ -57,12 +57,25 @@ function addSubjects(scene) {
   const playerOne = new PlayerPaddle(scene);
   const playerTwo = new PlayerPaddle(scene);
 
+  gameField.pivotPoint.add(playerOne.mesh);
+
+  // var quaternion = new THREE.Quaternion();
+  // quaternion.setFromAxisAngle(playerSettings.playerOne.position, Math.PI / 2);
+
+  // var vector = new THREE.Vector3( 1, 0, 0 );
+  // playerOne.mesh.rotation.applyQuaternion(quaternion);
+  // playerOne.mesh.rotation.set(new THREE.Euler().setFromQuaternion(quaternion));
+  // new THREE.Euler().setFromQuaternion( quaternion )
+
   playerOne.mesh.position.set(...playerSettings.playerOne.position);
-  playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
-  playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
-  playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
+  // playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
+  // playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
+  // playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
+
+  window.playerOne = playerOne.mesh;
 
   gui.addMesh('p1', playerOne.mesh);
+  gui.addMesh('field', gameField.mesh);
   // assign id?
 
   return {

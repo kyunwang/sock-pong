@@ -7,6 +7,7 @@ import {
   BackSide,
   SphereGeometry,
   MeshLambertMaterial,
+  Object3D,
 } from 'three';
 
 import random from 'canvas-sketch-util/random';
@@ -23,7 +24,12 @@ class SphereField {
 
     const mesh = new Mesh(geometry, material);
     scene.add(mesh);
+
+    const pivotPoint = new Object3D();
+    mesh.add(pivotPoint);
+
     this.mesh = mesh;
+    this.pivotPoint = pivotPoint;
   }
 }
 

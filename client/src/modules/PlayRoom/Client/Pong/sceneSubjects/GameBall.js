@@ -15,7 +15,7 @@ class GameBall {
     this.initBall(scene);
     this.fieldRadius = fieldSettings.sphereSize[0];
     this.speed = { x: 0, y: 0, z: 0 };
-    this.naturalForce = { x: 0, y: 0, z: 5 };
+    this.naturalForce = { x: 0, y: 0, z: 0 };
     this.defaultAcc = {
       // x: 1,
       // y: 1,
