@@ -7,21 +7,7 @@ import Pong from './Pong/Pong';
 
 const PlayRoomClient = ({ socket }) => {
   const canvasRef = useRef(null);
-  const [canvas, setCanvas] = useState(null);
-
-  // const handleSub = data => {
-  //   // orienation, playerID
-  //   const playerIndex = players.indexOf(data.playerID); // should be only 0 or 1
-  //   setCoords(oldArr => [
-  //     ...oldArr.slice(0, playerIndex),
-  //     data.orientation,
-  //     ...oldArr.slice(playerIndex + 1, coords.length),
-  //   ]);
-  // };
-
-  // useEffect(() => {
-  //   subscribeToReceiveOrientation(socket, handleSub);
-  // }, []);
+  const [canvas, setCanvas] = useState();
 
   useEffect(() => {
     setCanvas(canvasRef.current);

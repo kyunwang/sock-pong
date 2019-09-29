@@ -1,31 +1,29 @@
+// NoOTE: Data handling - e.g. sockets etc.
+
+// TODO: useLayoutEffect or old class constructor
+
 import React, { useRef, useEffect } from 'react';
 import {
   createStats,
   checkStats,
 } from '../../../../general/bhreesey/utils/stats';
-import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 import PropTypes from 'prop-types';
+import { subscribeToReceiveOrientation } from '../../../../socket/socketSubscriptions';
 
-import PerlinSphere from './sceneSubjects/PerlinSphere';
-import { initializeScene, addLight } from './initial';
-
-import { playersData } from './core';
+import { initializeCanvas } from './initial';
+import {
+  playersData,
+  gameObjects,
+  gameBall,
+  animateScene,
+  handleGameBall,
+} from './core';
 
 let stats;
-let sceneManager = null;
+let gui;
+let sceneManager;
+
 const isDev = process.env.GATSBY_STATS_JS;
-
-const animateScene = players => {
-  players.forEach(playerID => {
-    playersData[playerID].object.mesh.rotation.set(
-      playersData[playerID].orientation.x,
-      playersData[playerID].orientation.y,
-      playersData[playerID].orientation.z
-    );
-  });
-
-  sceneManager.update();
-};
 
 const handleSub = data => {
   const {
@@ -44,36 +42,44 @@ const Pong = ({ socket, players, canvas }) => {
 
     // If the sceneManager is not set, means players have yet to be set too
     if (!sceneManager) {
-      sceneManager = initializeScene(canvas);
-      const { scene, addToUpdate } = sceneManager;
+      const initialized = initializeCanvas({ canvas, hasGui: true });
+      sceneManager = initialized.sceneManager;
+      const {
+        gameBall,
+        gameField,
+        playerOne,
+        playerTwo,
+      } = initialized.subjects;
 
-      addLight(scene);
+      gameObjects.gameBall = gameBall;
+      gameObjects.gameField = gameField;
+      gameObjects.playerOne = playerOne;
+      gameObjects.playerTwo = playerTwo;
+
+      // camera.lookAt(possibly the ball?);
 
       players.forEach(playerID => {
-        const pSphere = new PerlinSphere(scene);
-        addToUpdate([pSphere]);
+        // addToUpdate([pSphere]);
 
         playersData[playerID] = {};
         playersData[playerID].orientation = { x: 0, y: 0, z: 0 };
-        playersData[playerID].object = pSphere;
+        playersData[playerID].object = {};
       });
+
+      gui = initialized.gui;
+      handleGui();
     }
   }, []);
 
   useEffect(() => {
-    // subscribeToReceiveOrientation(socket, handleSub);
-
-    if (!sceneManager) return;
-
+    // return; // Debug
     const animate = () => {
-      if (isDev) {
-        checkStats(stats, animateScene, {
-          args: players,
-          condition: isDev,
-        });
-      } else {
-        animateScene(players);
-      }
+      isDev
+        ? checkStats(stats, animateScene, { args: players, condition: isDev })
+        : animateScene(players);
+
+      sceneManager.update();
+
       requestAnimationFrame(animate);
     };
 
@@ -86,6 +92,26 @@ const Pong = ({ socket, players, canvas }) => {
     };
   }, []);
 
+  useEffect(() => {
+    return; // Debug
+    subscribeToReceiveOrientation(socket, handleSub);
+  });
+
+  // Start game - debug
+  useEffect(() => {
+    // put stuff in update of scenemanager?
+    // sceneManager.addToUpdate([]);
+    //
+    // const handlePress = e => {
+    //   if (e.code === 'Space') {
+    //     animate();
+    //     document.removeEventListener(handlePress);
+    //     console.log(111);
+    //   }
+    // };
+    // document.addEventListener('keypress', handlePress);
+  });
+
   return null;
 };
 
@@ -97,3 +123,8 @@ Pong.propTypes = {
 Pong.defaultProps = { players: [12421] };
 
 export default Pong;
+
+function handleGui() {
+  const { camera } = sceneManager;
+  gui.addCamera('Camera', camera);
+}
