@@ -1,5 +1,5 @@
 // Note: Game logic - possible state machine??? - prevent react rerender
-import { collisionBoxSphere } from './helpers';
+import { collisionBoxSphere, collisionSphereSphere } from './helpers';
 export const playersData = {}; // playerID: {}
 export const gameObjects = {
   gameField: null,
@@ -23,15 +23,20 @@ export const startGameBall = () => {
 
 const updateGameBall = () => {
   const { gameBall, gameField, playerOne, playerTwo } = gameObjects;
-  // console.log(gameObjects);
 
   const { velocity } = gameBall;
-  gameBall.mesh.position.x += velocity.x;
-  gameBall.mesh.position.z += velocity.z;
 
-  // collisionBoxSphere(gameField.mesh, gameBall.mesh);
-  // collisionBoxSphere(playerOne.mesh, gameBall.mesh);
-  // collisionBoxSphere(playerOne.mesh, gameBall.mesh);
+  const collidesWall = collisionSphereSphere(
+    gameBall.mesh,
+    gameField.mesh,
+    true
+  );
+
+  if (!collidesWall) {
+    gameBall.mesh.position.x += velocity.x;
+    gameBall.mesh.position.z += velocity.z;
+  }
+  // collisionSphereSphere(playerOne.mesh.position, playerTwo.mesh.position);
 };
 
 export const handleGameBall = () => {
