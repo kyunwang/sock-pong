@@ -15,8 +15,11 @@ class GameBall {
     this.initBall(scene);
     this.fieldRadius = fieldSettings.sphereSize[0];
     this.speed = { x: 0, y: 0, z: 0 };
-    this.naturalForce = { x: 5, y: 5, z: 5 };
+    this.naturalForce = { x: 0, y: 0, z: 5 };
     this.defaultAcc = {
+      // x: 1,
+      // y: 1,
+      // z: 1,
       x: (Math.random() - 0.5) * 10.0,
       y: (Math.random() - 0.5) * 10.0,
       z: (Math.random() - 0.5) * 10.0,
@@ -50,44 +53,48 @@ class GameBall {
     const accZ = defaultAcc.z + naturalForce.z;
 
     const time = 1 / fps;
-    this.speed.x += accX * 50 * time;
-    this.speed.y += accY * 50 * time;
-    this.speed.z += accZ * 50 * time;
+    this.speed.x += accX * 10 * time;
+    this.speed.y += accY * 10 * time;
+    this.speed.z += accZ * 10 * time;
 
     this.position.x += time * this.speed.x;
     this.position.y += time * this.speed.y;
     this.position.z += time * this.speed.z;
 
-    console.log(this.position, maxFieldRadius - maxRadius);
-
     if (this.position.x < -maxFieldRadius + maxRadius) {
       this.position.x = -maxFieldRadius + maxRadius;
       this.speed.x *= -1;
+      this.naturalForce.x = 1;
     }
 
     if (this.position.x > maxFieldRadius - maxRadius) {
       this.position.x = maxFieldRadius - maxRadius;
       this.speed.x *= -1;
+      this.naturalForce.x = -1;
     }
 
     if (this.position.y < -maxFieldRadius + maxRadius) {
       this.position.y = -maxFieldRadius + maxRadius;
       this.speed.y *= -1;
+      this.naturalForce.y = 1;
     }
 
     if (this.position.y > maxFieldRadius - maxRadius) {
       this.position.y = maxFieldRadius - maxRadius;
       this.speed.y *= -1;
+      this.naturalForce.y = -1;
     }
 
     if (this.position.z < -maxFieldRadius + maxRadius) {
       this.position.z = -maxFieldRadius + maxRadius;
-      this.speedz *= -1;
+      this.speed.z *= -1;
+      this.naturalForce.z = 1;
     }
 
     if (this.position.z > maxFieldRadius - maxRadius) {
       this.position.z = maxFieldRadius - maxRadius;
       this.speed.z *= -1;
+      this.naturalForce.z = -1;
     }
 
     // this.mesh.position.set(x, y, z);

@@ -52,10 +52,10 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
 
 function addSubjects(scene) {
   // const gameField = new SquareField(scene);
+  const gameBall = new GameBall(scene);
   const gameField = new SphereField(scene);
   const playerOne = new PlayerPaddle(scene);
   const playerTwo = new PlayerPaddle(scene);
-  const gameBall = new GameBall(scene);
 
   playerOne.mesh.position.set(...playerSettings.playerOne.position);
   playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
@@ -66,10 +66,10 @@ function addSubjects(scene) {
   // assign id?
 
   return {
+    gameBall,
     gameField,
     playerOne,
     playerTwo,
-    gameBall,
   };
 }
 
