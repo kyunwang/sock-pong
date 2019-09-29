@@ -32,10 +32,12 @@ const updateGameBall = () => {
     true
   );
 
-  if (!collidesWall) {
-    gameBall.mesh.position.x += velocity.x;
-    gameBall.mesh.position.z += velocity.z;
+  // Should reset game and start new round
+  if (collidesWall) {
+    // return;
   }
+
+  gameBall.update();
   // collisionSphereSphere(playerOne.mesh.position, playerTwo.mesh.position);
 };
 

@@ -1,4 +1,10 @@
-import { CylinderBufferGeometry, MeshStandardMaterial, Mesh } from 'three';
+import {
+  CylinderBufferGeometry,
+  MeshStandardMaterial,
+  Mesh,
+  Quaternion,
+  Vector3,
+} from 'three';
 import { playerSettings } from '../consts';
 
 class PlayerPaddle {
@@ -9,8 +15,16 @@ class PlayerPaddle {
       wireframe: false,
     });
     const mesh = new Mesh(geometry, material);
+
     scene.add(mesh);
+
     this.mesh = mesh;
+  }
+
+  update(time) {
+    // this.mesh.position.x = Math.cos(time * 10) * 5;
+    // this.mesh.position.y = Math.cos(time * 10) * 5;
+    // this.mesh.position.z = Math.cos(time * 10) * 5;
   }
 }
 
