@@ -3,7 +3,10 @@ import {
   MeshStandardMaterial,
   MeshNormalMaterial,
   DoubleSide,
+  FrontSide,
+  BackSide,
   SphereGeometry,
+  MeshLambertMaterial,
 } from 'three';
 
 import random from 'canvas-sketch-util/random';
