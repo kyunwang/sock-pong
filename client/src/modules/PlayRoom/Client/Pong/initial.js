@@ -68,13 +68,14 @@ function addSubjects(scene) {
   // new THREE.Euler().setFromQuaternion( quaternion )
 
   playerOne.mesh.position.set(...playerSettings.playerOne.position);
-  // playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
+  playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
   // playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
   // playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
 
   window.playerOne = playerOne.mesh;
 
   gui.addMesh('p1', playerOne.mesh);
+  gui.addMesh('ball', gameBall.mesh);
   gui.addMesh('field', gameField.mesh);
   // assign id?
 

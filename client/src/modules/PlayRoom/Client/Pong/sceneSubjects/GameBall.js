@@ -9,6 +9,7 @@ import {
   SphereBufferGeometry,
 } from 'three';
 import { fieldSettings } from '../consts';
+import { collisionCylinderSphere, collisionSphereSphere } from '../helpers';
 
 class GameBall {
   constructor(scene) {
@@ -36,7 +37,24 @@ class GameBall {
     this.mesh = mesh;
   }
 
-  update = () => {
+  checkPlayerCollision(playerOne, playerTwo) {
+    // TODO: Think about need to add a check regarding radius , as paddles are only on the edge of the field
+    const hasCollidedPlayerOne = collisionCylinderSphere(
+      playerOne.mesh,
+      this.mesh
+    );
+    if (hasCollidedPlayerOne) {
+      console.log('Collided player one');
+
+      return;
+    } else if (collisionCylinderSphere(playerTwo.mesh, this.mesh)) {
+      // No variable to prevent unneeded calculation
+      console.log('Collided player two');
+    }
+  }
+
+  checkWallCollision() {
+    // TODO: think about need to checkspheresphrere collision to prevent all the if checks
     const { fieldRadius, naturalForce, defaultAcc, position } = this;
     const {
       geometry: {
@@ -99,6 +117,11 @@ class GameBall {
 
     // this.mesh.position.set(x, y, z);
     this.mesh.position.set(this.position.x, this.position.y, this.position.z);
+  }
+
+  update = (playerOne, playerTwo) => {
+    this.checkWallCollision();
+    this.checkPlayerCollision(playerOne, playerTwo);
   };
 }
 

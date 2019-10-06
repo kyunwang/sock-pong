@@ -24,21 +24,7 @@ export const startGameBall = () => {
 const updateGameBall = () => {
   const { gameBall, gameField, playerOne, playerTwo } = gameObjects;
 
-  const { velocity } = gameBall;
-
-  const collidesWall = collisionSphereSphere(
-    gameBall.mesh,
-    gameField.mesh,
-    true
-  );
-
-  // Should reset game and start new round
-  if (collidesWall) {
-    // return;
-  }
-
-  gameBall.update();
-  // collisionSphereSphere(playerOne.mesh.position, playerTwo.mesh.position);
+  gameBall.update(playerOne, playerTwo);
 };
 
 export const handleGameBall = () => {
