@@ -56,7 +56,7 @@ const Pong = ({ socket, players, canvas }) => {
       gameObjects.playerOne = playerOne;
       gameObjects.playerTwo = playerTwo;
 
-      // sceneManager.addToUpdate([playerOne]);
+      sceneManager.addToUpdate([playerOne]);
 
       // camera.lookAt(possibly the ball?);
 

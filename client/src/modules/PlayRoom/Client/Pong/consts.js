@@ -5,6 +5,7 @@ export const cameraPositions = {
   audience: {
     camOne: [], // top view?
     topSide: { position: [-375, 200, 600] },
+    debug: { position: [-750, 400, 1200] },
     // Player one view?
     // Player two view?
   },
@@ -18,6 +19,6 @@ export const fieldSettings = {
 export const playerSettings = {
   size: [14, 3, 2],
   paddleSize: [12, 12, 3, 32],
-  playerOne: { position: [0, 0, 65], rotation: [90, 0, 0] }, // position
-  playerTwo: { position: [0, 0, -65], rotation: [-90, 0, 0] },
+  playerOne: { position: [0, 0, 170], rotation: [-Math.PI / 2, 0, 0] }, // position
+  playerTwo: { position: [0, 0, -170], rotation: [Math.PI / 2, 0, 0] },
 };

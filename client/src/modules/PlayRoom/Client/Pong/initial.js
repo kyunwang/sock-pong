@@ -5,15 +5,16 @@ import {
   debounce,
   bindEventListeners,
 } from '../../../../general/bhreesey/utils/helpers';
-import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
-import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
-import SquareField from './sceneSubjects/SquareField';
+import { AxesHelper } from 'three';
 import { cameraPositions } from './consts';
-import PlayerBar from './sceneSubjects/PlayerBar';
+import { createDatGUI } from '../../../../general/bhreesey/utils/dat.gui';
 import { playerSettings } from './consts';
 import GameBall from './sceneSubjects/GameBall';
-import SphereField from './sceneSubjects/SphereField';
+import GeneralLight from '../../../../general/bhreesey/GeneralSubjects/GeneralLight';
+import PlayerBar from './sceneSubjects/PlayerBar';
 import PlayerPaddle from './sceneSubjects/PlayerPaddle';
+import SphereField from './sceneSubjects/SphereField';
+import SquareField from './sceneSubjects/SquareField';
 
 global.THREE = THREE; // For orbit controls
 // Remove orbitcontrols at the end
@@ -26,7 +27,7 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
   const { camera, scene, onWindowResize } = sceneManager;
 
   // camera.position.set(...cameraPositions.default);
-  camera.position.set(...cameraPositions.audience.topSide.position);
+  camera.position.set(...cameraPositions.audience.debug.position);
   camera.rotation.set(...cameraPositions.audience.topSide.rotation);
   camera.fov = 15;
   // camera.far = 1000;
@@ -38,6 +39,7 @@ export const initializeCanvas = ({ canvas, hasGui }) => {
 
   handleEventBinding(onWindowResize);
   addLight(scene);
+  addAxesHelper(scene);
 
   const subjects = addSubjects(scene);
 
@@ -57,7 +59,7 @@ function addSubjects(scene) {
   const playerOne = new PlayerPaddle(scene);
   const playerTwo = new PlayerPaddle(scene);
 
-  gameField.pivotPoint.add(playerOne.mesh);
+  // gameField.pivotPoint.add(playerOne.mesh);
 
   // var quaternion = new THREE.Quaternion();
   // quaternion.setFromAxisAngle(playerSettings.playerOne.position, Math.PI / 2);
@@ -69,10 +71,10 @@ function addSubjects(scene) {
 
   playerOne.mesh.position.set(...playerSettings.playerOne.position);
   playerTwo.mesh.position.set(...playerSettings.playerTwo.position);
-  // playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
-  // playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
+  playerOne.mesh.rotation.set(...playerSettings.playerOne.rotation);
+  playerTwo.mesh.rotation.set(...playerSettings.playerTwo.rotation);
 
-  window.playerOne = playerOne.mesh;
+  // window.playerOne = playerOne.mesh;
 
   gui.addMesh('p1', playerOne.mesh);
   gui.addMesh('ball', gameBall.mesh);
@@ -93,7 +95,7 @@ function addLight(scene) {
     hasHelper: true,
     light: {
       color: 0x2222ff,
-      intesity: 3,
+      intesity: 10,
     },
   });
 
@@ -102,6 +104,16 @@ function addLight(scene) {
   gui.addLight('Light', light);
 
   return light;
+}
+
+function addAxesHelper(scene) {
+  const axesHelper = new AxesHelper(20);
+  scene.add(axesHelper);
+  // x: red
+  // y: green
+  // z: blue
+
+  return axesHelper;
 }
 
 function handleEventBinding(onWindowResize) {

@@ -45,9 +45,24 @@ class GameBall {
     );
     if (hasCollidedPlayerOne) {
       console.log('Collided player one');
+      // based on player location
+      // ball location
+      // NOT field location
+
+      if (this.position.x < playerOne.mesh.position.x) {
+        console.log(554564545654);
+      }
 
       return;
     } else if (collisionCylinderSphere(playerTwo.mesh, this.mesh)) {
+      if (this.position.x > playerTwo.mesh.position.x) {
+        console.log(554564545654);
+        this.position.x =
+          playerTwo.mesh.position.x -
+          playerTwo.mesh.geometry.parameters.height / 2;
+        this.speed.x *= -1;
+        this.naturalForce.x = -1;
+      }
       // No variable to prevent unneeded calculation
       console.log('Collided player two');
     }
@@ -71,9 +86,9 @@ class GameBall {
     const accZ = defaultAcc.z + naturalForce.z;
 
     const time = 1 / fps;
-    this.speed.x += accX * 10 * time;
-    this.speed.y += accY * 10 * time;
-    this.speed.z += accZ * 10 * time;
+    this.speed.x += accX * 20 * time;
+    this.speed.y += accY * 20 * time;
+    this.speed.z += accZ * 20 * time;
 
     this.position.x += time * this.speed.x;
     this.position.y += time * this.speed.y;
