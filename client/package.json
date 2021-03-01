@@ -30,7 +30,7 @@
     "stats-js": "^1.0.1",
     "stats.js": "^0.17.0",
     "styled-components": "^4.3.2",
-    "three": "^0.108.0",
+    "three": "^0.125.0",
     "three-dat.gui": "^1.0.2"
   },
   "devDependencies": {
